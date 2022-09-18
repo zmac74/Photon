@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\main\Main.cpp" />
+    <ClCompile Include="src\gui\Window.cpp" />
+    <ClCompile Include="src\core\Initializer.cpp" />
+    <ClCompile Include="src\core\Terminator.cpp" />
+    <ClCompile Include="src\debug\profiler\Timer.cpp" />
+    <ClCompile Include="src\scene\importer\MeshLoader.cpp" />
+    <ClCompile Include="src\renderer\MeshRenderer.cpp" />
+    <ClCompile Include="src\renderer\Renderer.cpp" />
+    <ClCompile Include="src\scene\importer\ShaderLoader.cpp" />
+    <ClCompile Include="src\debug\Assert.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\gui\Window.h" />
+    <ClInclude Include="src\core\Core.h" />
+    <ClInclude Include="src\debug\Debug.h" />
+    <ClInclude Include="src\debug\profiler\Timer.h" />
+    <ClInclude Include="src\main\Main.h" />
+    <ClInclude Include="src\scene\Scene.h" />
+    <ClInclude Include="src\renderer\Renderer.h" />
+    <ClInclude Include="src\utils\collection\Buffer.h" />
+    <ClInclude Include="src\utils\collection\Color.h" />
+    <ClInclude Include="src\scene\importer\Importer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader Library\standard\Vertex.glsl" />
+    <None Include="Shader Library\standard\Fragment.glsl" />
+  </ItemGroup>
+</Project>
