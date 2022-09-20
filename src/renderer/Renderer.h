@@ -3,5 +3,5 @@
 #include <scene/Scene.h>
 #include <utils/collection/Color.h>
 
-void render(VertexArray vertexArray, Shader shader);
-void clearFrame(Color24 color);
+void Render(VertexArray vertexArray, Shader shader);
+void ClearFrame(Color24 color);

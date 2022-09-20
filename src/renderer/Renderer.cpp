@@ -3,7 +3,7 @@
 
 #include <renderer/Renderer.h>
 
-void clearFrame(Color24 color) 
+void ClearFrame(Color24 color) 
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(color.r, color.g, color.b, 1.0f);

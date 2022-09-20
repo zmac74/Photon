@@ -147,6 +147,7 @@
     <ClInclude Include="src\debug\profiler\Timer.h" />
     <ClInclude Include="src\gui\Window.h" />
     <ClInclude Include="src\main\Main.h" />
+    <ClInclude Include="src\Photon.h" />
     <ClInclude Include="src\renderer\Renderer.h" />
     <ClInclude Include="src\scene\importer\Importer.h" />
     <ClInclude Include="src\scene\Scene.h" />

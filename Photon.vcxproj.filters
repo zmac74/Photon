@@ -23,6 +23,7 @@
     <ClInclude Include="src\utils\collection\Buffer.h" />
     <ClInclude Include="src\utils\collection\Color.h" />
     <ClInclude Include="src\scene\importer\Importer.h" />
+    <ClInclude Include="src\Photon.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader Library\standard\Vertex.glsl" />

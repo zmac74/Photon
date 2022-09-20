@@ -9,8 +9,9 @@ static VertexArray vertexArray;
 static std::vector<VertexArray> vertexArrays = std::vector<VertexArray>();
 
 static void loadVertexBuffer(int index, int vecSize, FloatBuffer data);
+static void loadElementBuffer(IntBuffer data);
 
-VertexArray Scene::Importer::loadVertexArray(FloatBuffer positions, FloatBuffer textureCoords, FloatBuffer normals, FloatBuffer colors, FloatBuffer tangents)
+VertexArray Scene::Importer::LoadVertexArray(FloatBuffer positions, FloatBuffer textureCoords, FloatBuffer normals, FloatBuffer colors, FloatBuffer tangents, IntBuffer indices)
 {
 	vertexArray = VertexArray{};
 	
@@ -22,6 +23,7 @@ VertexArray Scene::Importer::loadVertexArray(FloatBuffer positions, FloatBuffer 
 	if (normals.buffer != nullptr) loadVertexBuffer(2, 3, normals);
 	if (colors.buffer != nullptr) loadVertexBuffer(3, 4, colors);
 	if (tangents.buffer != nullptr) loadVertexBuffer(4, 3, tangents);
+	loadElementBuffer(indices);
 
 	glBindVertexArray(0);
 
@@ -44,13 +46,25 @@ static void loadVertexBuffer(int index, int vecSize, FloatBuffer data)
 	vertexArray.vbos.emplace_back(vertexBuffer);
 }
 
-void Scene::Importer::deleteVertexArray(VertexArray vertexArray) 
+static void loadElementBuffer(IntBuffer data) 
+{
+	ElementBuffer elementBuffer;
+	elementBuffer.indexCount = data.length;
+
+	glGenBuffers(1, &elementBuffer.eboID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer.eboID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.length * sizeof(int), data.buffer, GL_STATIC_DRAW);
+	vertexArray.elementBuffer = elementBuffer;
+}
+
+void Scene::Importer::DeleteVertexArray(VertexArray vertexArray) 
 {
 	glDeleteVertexArrays(1, &vertexArray.vaoID);
 	for (int i = 0; i < vertexArray.vbos.size(); i++) glDeleteBuffers(1, &vertexArray.vbos[i].vboID);
+	glDeleteBuffers(1, &vertexArray.elementBuffer.eboID);
 }
 
-void Scene::Importer::deleteVertexArrayRegistry() 
+void Scene::Importer::DeleteVertexArrayRegistry() 
 {
-	for (int i = 0; i < vertexArrays.size(); i++) deleteVertexArray(vertexArrays[i]);
+	for (int i = 0; i < vertexArrays.size(); i++) DeleteVertexArray(vertexArrays[i]);
 }

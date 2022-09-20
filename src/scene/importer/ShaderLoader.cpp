@@ -14,7 +14,7 @@ static void createProgram();
 static Shader shader;
 static std::vector<Shader> shaders = std::vector<Shader>();
 
-Shader Scene::Importer::loadShader(const char* vertexShader, const char* fragmentShader) 
+Shader Scene::Importer::LoadShader(const char* vertexShader, const char* fragmentShader) 
 {
 	shader = Shader();
 
@@ -29,9 +29,9 @@ Shader Scene::Importer::loadShader(const char* vertexShader, const char* fragmen
 static void createProgram() 
 {
 	shader.shaderID = glCreateProgram();
-	if (shader.vertexStageID != -1)glAttachShader(shader.shaderID, shader.vertexStageID);
+	if (shader.vertexStageID != -1) glAttachShader(shader.shaderID, shader.vertexStageID);
 	if (shader.geometryStageID != -1) glAttachShader(shader.shaderID, shader.geometryStageID);
-	if (shader.fragmentStageID != -1)glAttachShader(shader.shaderID, shader.fragmentStageID);
+	if (shader.fragmentStageID != -1) glAttachShader(shader.shaderID, shader.fragmentStageID);
 	glLinkProgram(shader.shaderID);
 	glValidateProgram(shader.shaderID);
 }
@@ -45,8 +45,8 @@ static void getCompileStatus(int shaderID)
 	if (!status) 
 	{
 		glGetShaderInfoLog(shaderID, 1024, NULL, infoLog);
-		Debug::log("ERROR: Shader Compilation Failed:\n\n");
-		Debug::log(infoLog);
+		Debug::Log("ERROR: Shader Compilation Failed:\n\n");
+		Debug::Log(infoLog);
 	}
 }
 
@@ -92,7 +92,7 @@ static void createShader(const char* shaderFile)
 	}
 }
 
-void Scene::Importer::deleteShaderRegistry() 
+void Scene::Importer::DeleteShaderRegistry() 
 {
 	for (int i = 0; i < shaders.size(); i++) 
 	{

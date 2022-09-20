@@ -9,11 +9,11 @@ namespace Scene
 {
 	namespace Importer
 	{
-		VertexArray loadVertexArray(FloatBuffer positions, FloatBuffer textureCoords, FloatBuffer normals, FloatBuffer colors, FloatBuffer tangents);
-		void deleteVertexArray(VertexArray vertexArray);
-		void deleteVertexArrayRegistry();
-		Shader loadShader(const char* vertexShader, const char* fragmentShader);
-		void deleteShaderRegistry();
+		VertexArray LoadVertexArray(FloatBuffer positions, FloatBuffer textureCoords, FloatBuffer normals, FloatBuffer colors, FloatBuffer tangents, IntBuffer indices);
+		void DeleteVertexArray(VertexArray vertexArray);
+		void DeleteVertexArrayRegistry();
+		Shader LoadShader(const char* vertexShader, const char* fragmentShader);
+		void DeleteShaderRegistry();
 	}
 }
 

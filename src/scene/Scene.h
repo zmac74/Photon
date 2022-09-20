@@ -7,6 +7,7 @@
 namespace Scene 
 {
 	struct VertexArray;
+	struct ElementBuffer;
 	struct Mesh;
 	struct Model;
 	struct VertexBuffer;
@@ -17,19 +18,27 @@ namespace Scene
 
 	};
 
+	struct VertexBuffer
+	{
+		unsigned int vboID = 0;
+		int attributeIndex = -1;
+		int vectorSize = 0;
+	};
+
+	struct ElementBuffer
+	{
+	public:
+		unsigned int eboID = 0;
+		int indexCount = 0;
+	};
+
 	struct VertexArray
 	{
 	public:
 		unsigned int vaoID = 0;
 		unsigned int vertexCount = 0;
 		std::vector<VertexBuffer> vbos = std::vector<VertexBuffer>();
-	};
-
-	struct VertexBuffer
-	{
-		unsigned int vboID = 0;
-		int attributeIndex = -1;
-		int vectorSize = 0;
+		ElementBuffer elementBuffer;
 	};
 
 	struct Mesh

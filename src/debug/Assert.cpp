@@ -2,7 +2,7 @@
 
 #include <debug/Debug.h>
 
-void Debug::forceShutdown()
+void Debug::Assert()
 {
 	assert(0);
 }

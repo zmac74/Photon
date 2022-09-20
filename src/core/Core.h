@@ -2,9 +2,9 @@
 
 namespace Core 
 {
-	void init();
-	void initGraphicsLibrary();
-	void shutDown();
+	void Init();
+	void InitGraphicsLibrary();
+	void ShutDown();
 }
 
 using namespace Core;

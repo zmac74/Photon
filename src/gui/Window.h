@@ -14,17 +14,17 @@ namespace Gui
 			create();
 		}
 
-		inline int getWidth() const { return width; }
-		inline int getHeight() const { return height; }
-		inline const char* getTitle() const { return title; }
-		inline bool isFrameRateLimited() const { return frameRateLimited; }
+		inline int GetWidth() const { return width; }
+		inline int GetHeight() const { return height; }
+		inline const char* GetTitle() const { return title; }
+		inline bool IsFrameRateLimited() const { return frameRateLimited; }
 
-		void update();
-		void render();
-		void setTitle(const char* title);
-		void limitFrameRate(bool value);
-		void destroy();
-		bool exists();
+		void Update();
+		void Render();
+		void SetTitle(const char* title);
+		void LimitFrameRate(bool value);
+		void Destroy();
+		bool Exists();
 
 	private:
 		int width;

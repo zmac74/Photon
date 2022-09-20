@@ -1,9 +1,84 @@
 #pragma once
 
+#include <string>
+#include <stdlib.h>
+#include <malloc.h>
+
+#include <debug/Debug.h>
+
 namespace Utils 
 {
 	namespace Collection 
 	{
+		template<typename Type>
+		class ArrayList 
+		{
+		public:
+			ArrayList() 
+			{
+				data = (Type*)malloc(sizeof(Type) * capacity);
+			}
+
+			ArrayList(int capacity) : capacity(capacity)
+			{
+				if (capacity == 0) Assert("Error: Arraylist has capacity of zero.");
+				data = (Type*)malloc(sizeof(Type) * capacity);
+				allocatedElements = capacity;
+			}
+
+			void Add(Type element)
+			{
+				if (elements == allocatedElements)
+				{
+					Type* newAlloc = (Type*)malloc((sizeof(Type) * elements) + (sizeof(Type) * capacity));
+					std::memcpy(newAlloc, data, elements * sizeof(Type));
+					free(data);
+
+					data = newAlloc;
+					allocatedElements += capacity;
+				}
+
+				data[elements] = element;
+				elements++;
+			}
+
+			void Reserve(int elements)
+			{
+				if (elements == 0) Assert("Error: Arraylist has capacity of zero.");
+				capacity = elements;
+			}
+
+			Type& Get(int index) const
+			{
+				if (index >= elements) Assert("Error: Arraylist index out of bounds.");
+				return data[index];
+			}
+
+			Type& operator[](int index) const
+			{
+				if (index >= elements) Assert("Error: Arraylist index out of bounds.");
+				return data[index];
+			}
+
+			inline int GetLength() const { return elements; }
+
+			inline int GetAllocatedLength() const { return allocatedElements; }
+
+			inline int GetSize() const { return elements * sizeof(Type); }
+
+			inline int GetAllocatedSize() const { return allocatedElements * sizeof(Type); }
+
+			inline int GetCapacity() const { return capacity; }
+
+
+		private:
+			Type* data;
+
+			int capacity = 1;
+			int allocatedElements = 1;
+			int elements = 0;
+		};
+		
 		struct FloatBuffer 
 		{
 		public:

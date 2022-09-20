@@ -4,10 +4,10 @@
 #include <debug/Debug.h>
 #include "Core.h"
 
-void Core::shutDown() 
+void Core::ShutDown() 
 {
 	glfwTerminate();
-	deleteShaderRegistry();
-	deleteVertexArrayRegistry();
-	Debug::log("Termination Successful.");
+	DeleteShaderRegistry();
+	DeleteVertexArrayRegistry();
+	Debug::Log("Termination Successful.");
 }

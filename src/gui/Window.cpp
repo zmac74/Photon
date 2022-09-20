@@ -14,33 +14,33 @@ void Window::create()
 	glfwShowWindow(windowID);
 }
 
-void Window::update() 
+void Window::Update() 
 {
 	glfwPollEvents();
 }
 
-void Window::render() 
+void Window::Render() 
 {
 	glfwSwapBuffers(windowID);
 }
 
-void Window::setTitle(const char* title) 
+void Window::SetTitle(const char* title) 
 {
 	glfwSetWindowTitle(windowID, title);
 }
 
-void Window::limitFrameRate(bool value) 
+void Window::LimitFrameRate(bool value) 
 {
 	value ? glfwSwapInterval(1) : glfwSwapInterval(0);
 	value ? frameRateLimited = true : frameRateLimited = false;
 }
 
-void Window::destroy() 
+void Window::Destroy() 
 {
 	glfwDestroyWindow(windowID);
 }
 
-bool Window::exists()
+bool Window::Exists()
 {
 	return !glfwWindowShouldClose(windowID);
 }
