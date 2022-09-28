@@ -104,7 +104,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\micha\OneDrive\Desktop\Libraries\GLEW\include;C:\Users\micha\source\repos\Photon\src;C:\Users\micha\OneDrive\Desktop\Libraries\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\micha\OneDrive\Desktop\Libraries\GLM\library;C:\Users\micha\OneDrive\Desktop\Libraries\GLEW\include;C:\Users\micha\source\repos\Photon\src;C:\Users\micha\OneDrive\Desktop\Libraries\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,21 +132,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Initializer.cpp" />
+    <ClCompile Include="src\core\system\Time.cpp" />
     <ClCompile Include="src\core\Terminator.cpp" />
     <ClCompile Include="src\debug\Assert.cpp" />
-    <ClCompile Include="src\debug\profiler\Timer.cpp" />
-    <ClCompile Include="src\gui\Window.cpp" />
+    <ClCompile Include="src\debug\profiler\ScopeTimer.cpp" />
+    <ClCompile Include="src\interface\gui\Window.cpp" />
+    <ClCompile Include="src\interface\input\Input.cpp" />
+    <ClCompile Include="src\interface\input\Keyboard.cpp" />
+    <ClCompile Include="src\interface\input\Mouse.cpp" />
+    <ClCompile Include="src\main\FirstPersonCamera.cpp" />
     <ClCompile Include="src\main\Main.cpp" />
     <ClCompile Include="src\renderer\MeshRenderer.cpp" />
     <ClCompile Include="src\renderer\Renderer.cpp" />
+    <ClCompile Include="src\renderer\shader\Shader.cpp" />
     <ClCompile Include="src\scene\importer\MeshLoader.cpp" />
     <ClCompile Include="src\scene\importer\ShaderLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Core.h" />
+    <ClInclude Include="src\core\system\Time.h" />
     <ClInclude Include="src\debug\Debug.h" />
-    <ClInclude Include="src\debug\profiler\Timer.h" />
-    <ClInclude Include="src\gui\Window.h" />
+    <ClInclude Include="src\debug\profiler\ScopeTimer.h" />
+    <ClInclude Include="src\interface\gui\Window.h" />
+    <ClInclude Include="src\interface\input\Input.h" />
     <ClInclude Include="src\main\Main.h" />
     <ClInclude Include="src\Photon.h" />
     <ClInclude Include="src\renderer\Renderer.h" />
@@ -153,8 +162,13 @@
     <ClInclude Include="src\scene\Scene.h" />
     <ClInclude Include="src\utils\collection\Buffer.h" />
     <ClInclude Include="src\utils\collection\Color.h" />
+    <ClInclude Include="src\utils\math\Arithmetic.h" />
+    <ClInclude Include="src\utils\math\Matrix.h" />
+    <ClInclude Include="src\utils\math\Vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
     <None Include="Shader Library\standard\Fragment.glsl" />
     <None Include="Shader Library\standard\Vertex.glsl" />
   </ItemGroup>

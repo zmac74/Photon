@@ -2,21 +2,27 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="src\main\Main.cpp" />
-    <ClCompile Include="src\gui\Window.cpp" />
+    <ClCompile Include="src\interface\gui\Window.cpp" />
     <ClCompile Include="src\core\Initializer.cpp" />
     <ClCompile Include="src\core\Terminator.cpp" />
-    <ClCompile Include="src\debug\profiler\Timer.cpp" />
+    <ClCompile Include="src\debug\profiler\ScopeTimer.cpp" />
     <ClCompile Include="src\scene\importer\MeshLoader.cpp" />
     <ClCompile Include="src\renderer\MeshRenderer.cpp" />
     <ClCompile Include="src\renderer\Renderer.cpp" />
     <ClCompile Include="src\scene\importer\ShaderLoader.cpp" />
     <ClCompile Include="src\debug\Assert.cpp" />
+    <ClCompile Include="src\interface\input\Input.cpp" />
+    <ClCompile Include="src\interface\input\Mouse.cpp" />
+    <ClCompile Include="src\interface\input\Keyboard.cpp" />
+    <ClCompile Include="src\core\system\Time.cpp" />
+    <ClCompile Include="src\main\FirstPersonCamera.cpp" />
+    <ClCompile Include="src\renderer\shader\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\gui\Window.h" />
+    <ClInclude Include="src\interface\gui\Window.h" />
     <ClInclude Include="src\core\Core.h" />
     <ClInclude Include="src\debug\Debug.h" />
-    <ClInclude Include="src\debug\profiler\Timer.h" />
+    <ClInclude Include="src\debug\profiler\ScopeTimer.h" />
     <ClInclude Include="src\main\Main.h" />
     <ClInclude Include="src\scene\Scene.h" />
     <ClInclude Include="src\renderer\Renderer.h" />
@@ -24,9 +30,16 @@
     <ClInclude Include="src\utils\collection\Color.h" />
     <ClInclude Include="src\scene\importer\Importer.h" />
     <ClInclude Include="src\Photon.h" />
+    <ClInclude Include="src\utils\math\Vector.h" />
+    <ClInclude Include="src\utils\math\Arithmetic.h" />
+    <ClInclude Include="src\utils\math\Matrix.h" />
+    <ClInclude Include="src\interface\input\Input.h" />
+    <ClInclude Include="src\core\system\Time.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader Library\standard\Vertex.glsl" />
     <None Include="Shader Library\standard\Fragment.glsl" />
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
   </ItemGroup>
 </Project>

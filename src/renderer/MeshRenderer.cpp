@@ -2,9 +2,8 @@
 
 #include <renderer/Renderer.h>
 
-void Render(VertexArray vertexArray, Shader shader)
+void Renderer::Render(VertexArray vertexArray, Shader shader)
 {
-	glUseProgram(shader.shaderID);
 	glBindVertexArray(vertexArray.vaoID);
 	for (int i = 0; i < vertexArray.vbos.size(); i++) glEnableVertexAttribArray(vertexArray.vbos[i].attributeIndex);
 
@@ -12,5 +11,4 @@ void Render(VertexArray vertexArray, Shader shader)
 	
 	for (int i = 0; i < vertexArray.vbos.size(); i++) glDisableVertexAttribArray(vertexArray.vbos[i].attributeIndex);
 	glBindVertexArray(0);
-	glUseProgram(0);
 }

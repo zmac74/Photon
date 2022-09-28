@@ -3,20 +3,16 @@
 #include <vector>
 
 #include <utils/collection/Buffer.h>
+#include <utils/math/Vector.h>
+#include <utils/math/Matrix.h>
 
 namespace Scene 
 {
 	struct VertexArray;
 	struct ElementBuffer;
 	struct Mesh;
-	struct Model;
 	struct VertexBuffer;
 	struct Shader;
-
-	struct Model
-	{
-
-	};
 
 	struct VertexBuffer
 	{
@@ -55,6 +51,17 @@ namespace Scene
 		int vertexStageID = -1;
 		int geometryStageID = -1;
 		int fragmentStageID = -1;
+
+		void Start();
+		void Stop();
+
+		void SetFloat(const char* varName, float value);
+		
+		void SetVector2(const char* varName, Vector2 value);
+		void SetVector3(const char* varName, Vector3 value);
+		void SetVector4(const char* varName, Vector4 value);
+
+		void SetMatrix4x4(const char* varName, Matrix4x4 value);
 	};
 }
 

@@ -25,6 +25,7 @@ int indices[] = {
 	1, 2, 3    // second triangle
 };
 
+FirstPersonCamera camera = FirstPersonCamera(0, 0, 3);
 VertexArray vertexArray;
 Shader shader;
 
@@ -33,6 +34,7 @@ static void start()
 	Core::Init();
 	window = Window(800, 600, "Photon");
 	window.LimitFrameRate(false);
+	window.DisableCursor(true);
 	Core::InitGraphicsLibrary();
 
 	vertexArray = LoadVertexArray(FloatBuffer(&vertices[0], 12), FloatBuffer(nullptr, 12), FloatBuffer(nullptr, 16), FloatBuffer(&colors[0], 16), FloatBuffer(nullptr, 12), IntBuffer(&indices[0], 6));
@@ -41,12 +43,14 @@ static void start()
 
 static void update() 
 {
+	Input::Update();
 	window.Update();
+	camera.update();
 }
 
 static void render() 
 {
-	ClearFrame(Color24(0, 1, 0));
+	ClearFrame(Color24(0, 0, 0));
 	Render(vertexArray, shader);
 	window.Render();
 }
@@ -61,16 +65,18 @@ static void run()
 {
 	start();
 	
-	float seconds = 0;
+	double seconds = 0;
 	while (window.Exists()) 
 	{
-		auto start = std::chrono::high_resolution_clock::now();
 		update();
+		shader.Start();
+		shader.SetMatrix4x4("camera", camera.getMatrix());
 		render();
-		std::chrono::duration<float> deltaTime = std::chrono::high_resolution_clock::now() - start;
-
-		int fps = (int)(1 / deltaTime.count());
-		seconds += deltaTime.count();
+		shader.Stop();
+		CalculateFrameTime();
+		
+		int fps = (int)(1 / GetDeltaTime());
+		seconds += GetDeltaTime();
 
 		if (seconds >= 0.2f)
 		{
