@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\micha\OneDrive\Desktop\Libraries\GLM\library;C:\Users\micha\OneDrive\Desktop\Libraries\GLEW\include;C:\Users\micha\source\repos\Photon\src;C:\Users\micha\OneDrive\Desktop\Libraries\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\micha\OneDrive\Desktop\Libraries\STB;C:\Users\micha\OneDrive\Desktop\Libraries\GLM\library;C:\Users\micha\OneDrive\Desktop\Libraries\GLEW\include;C:\Users\micha\source\repos\Photon\src;C:\Users\micha\OneDrive\Desktop\Libraries\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -145,8 +145,10 @@
     <ClCompile Include="src\renderer\MeshRenderer.cpp" />
     <ClCompile Include="src\renderer\Renderer.cpp" />
     <ClCompile Include="src\renderer\shader\Shader.cpp" />
+    <ClCompile Include="src\scene\importer\ImageLoader.cpp" />
     <ClCompile Include="src\scene\importer\MeshLoader.cpp" />
     <ClCompile Include="src\scene\importer\ShaderLoader.cpp" />
+    <ClCompile Include="src\scene\importer\TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Core.h" />
@@ -171,6 +173,9 @@
     <None Include=".gitignore" />
     <None Include="Shader Library\standard\Fragment.glsl" />
     <None Include="Shader Library\standard\Vertex.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\OneDrive\Desktop\Photon-logos\Photon-logos.jpeg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

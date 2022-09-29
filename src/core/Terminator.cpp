@@ -9,5 +9,7 @@ void Core::ShutDown()
 	glfwTerminate();
 	DeleteShaderRegistry();
 	DeleteVertexArrayRegistry();
+	DeleteTextureRegistry();
+	DeleteImageRegistry();
 	Debug::Log("Termination Successful.");
 }

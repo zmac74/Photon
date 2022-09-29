@@ -5,7 +5,7 @@
 
 namespace Renderer 
 {
-	void Render(VertexArray vertexArray, Shader shader);
+	void Render(VertexArray vertexArray, Texture texture, Shader shader);
 	void ClearFrame(Color24 color);
 }
 

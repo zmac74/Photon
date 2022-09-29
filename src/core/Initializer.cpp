@@ -4,9 +4,12 @@
 #include "debug/Debug.h"
 #include "Core.h"
 
+void initImageLoader();
+
 void Core::Init() 
 {
 	if (!glfwInit()) Debug::Assert("Error: GLFW failed to initialize.");
+	initImageLoader();
 }
 
 void Core::InitGraphicsLibrary() 

@@ -17,6 +17,8 @@
     <ClCompile Include="src\core\system\Time.cpp" />
     <ClCompile Include="src\main\FirstPersonCamera.cpp" />
     <ClCompile Include="src\renderer\shader\Shader.cpp" />
+    <ClCompile Include="src\scene\importer\ImageLoader.cpp" />
+    <ClCompile Include="src\scene\importer\TextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\interface\gui\Window.h" />
@@ -41,5 +43,8 @@
     <None Include="Shader Library\standard\Fragment.glsl" />
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\OneDrive\Desktop\Photon-logos\Photon-logos.jpeg" />
   </ItemGroup>
 </Project>

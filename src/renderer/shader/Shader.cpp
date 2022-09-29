@@ -18,6 +18,12 @@ void Shader::SetFloat(const char* varName, float value)
 	glUniform1f(location, value);
 }
 
+void Shader::SetInt(const char* varName, int value) 
+{
+	int location = glGetUniformLocation(this->shaderID, varName);
+	glUniform1i(location, value);
+}
+
 void Shader::SetVector2(const char* varName, Vector2 value)
 {
 	int location = glGetUniformLocation(this->shaderID, varName);

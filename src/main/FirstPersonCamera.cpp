@@ -4,6 +4,8 @@
 
 static const float SENSITIVITY = 0.1f;
 static const float ZOOM_SENSITIVITY = 5.0f;
+static const float MAX_FOV = 70.0f;
+static const float MIN_FOV = 1.0f;
 
 static float cameraMovementSpeed = 4;
 float yaw = 0;
@@ -19,16 +21,16 @@ void FirstPersonCamera::update()
 	if (Input::keys[(int)'E']) translate(0, cameraMovementSpeed * GetDeltaTime(), 0);
 	if (Input::keys[(int)'Q']) translate(0, -cameraMovementSpeed * GetDeltaTime(), 0);
 
-	yaw -= Input::cursorDeltaXPos * SENSITIVITY;
-	pitch -= Input::cursorDeltaYPos * SENSITIVITY;
+	yaw -= Input::cursorDeltaXPos * SENSITIVITY * (fov / MAX_FOV);
+	pitch -= Input::cursorDeltaYPos * SENSITIVITY * (fov / MAX_FOV);
 
 	if (pitch >= 89.0f) pitch = 89.0f;
 	if (pitch <= -89.0f) pitch = -89.0f;
 
 	fov -= Input::scrollYOffset * ZOOM_SENSITIVITY;
 	
-	if (fov >= 70.0f) fov = 70.0f;
-	if (fov <= 1.0f) fov = 1.0f;
+	if (fov >= MAX_FOV) fov = MAX_FOV;
+	if (fov <= MIN_FOV) fov = MIN_FOV;
 }
 
 void FirstPersonCamera::translate(float x, float y, float z)

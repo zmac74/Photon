@@ -1,6 +1,8 @@
 #include <GLFW/glfw3.h>
 
 #include <interface/gui/Window.h>
+#include <scene/importer/Importer.h>
+#include <scene/Scene.h>
 
 void keyCallback(GLFWwindow* window, int key, int action, int scancode, int mods);
 void mousePositionCallback(GLFWwindow* window, double xPos, double yPos);
@@ -58,6 +60,28 @@ void Window::LimitFrameRate(bool value)
 void Window::DisableCursor(bool value) 
 {
 	value ? glfwSetInputMode(windowID, GLFW_CURSOR, GLFW_CURSOR_DISABLED) : glfwSetInputMode(windowID, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+
+void Window::SetIconImage(Image image) 
+{
+	GLFWimage img;
+	img.width = image.GetWidth();
+	img.height = image.GetHeight();
+	img.pixels = image.GetPixels();
+
+	glfwSetWindowIcon(windowID, 1, &img);
+}
+
+void Window::SetIconImage(const char* path)
+{
+	Image image = LoadImage(path);
+	
+	GLFWimage img;
+	img.width = image.GetWidth();
+	img.height = image.GetHeight();
+	img.pixels = image.GetPixels();
+
+	glfwSetWindowIcon(windowID, 1, &img);
 }
 
 void Window::Destroy() 

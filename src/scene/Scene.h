@@ -56,12 +56,43 @@ namespace Scene
 		void Stop();
 
 		void SetFloat(const char* varName, float value);
+		void SetInt(const char* varName, int value);
 		
 		void SetVector2(const char* varName, Vector2 value);
 		void SetVector3(const char* varName, Vector3 value);
 		void SetVector4(const char* varName, Vector4 value);
 
 		void SetMatrix4x4(const char* varName, Matrix4x4 value);
+	};
+
+	struct Image 
+	{
+	public:
+		Image(int width, int height, int channels, unsigned char* pixels) : width(width), height(height), channels(channels), pixels(pixels) {};
+
+		inline int GetWidth() const { return width; }
+		inline int GetHeight() const { return height; }
+		inline int GetChannels() const { return channels; }
+		inline unsigned char* GetPixels() const { return pixels; }
+
+	private:
+		int width;
+		int height;
+		int channels;
+
+		unsigned char* pixels;
+	};
+
+	struct Texture 
+	{
+	public:	
+		Texture() = default;
+		Texture(unsigned int textureID) : textureID(textureID) {}
+
+		inline unsigned int GetTextureID() const { return textureID; }
+
+	private:
+		unsigned int textureID = 0;
 	};
 }
 

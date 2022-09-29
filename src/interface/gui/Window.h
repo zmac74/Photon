@@ -2,6 +2,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include <scene/Scene.h>
+
 namespace Interface 
 {
 	namespace Gui
@@ -27,6 +29,8 @@ namespace Interface
 			void SetCursorPos(int x, int y);
 			void LimitFrameRate(bool value);
 			void DisableCursor(bool value);
+			void SetIconImage(Image Image);
+			void SetIconImage(const char* path);
 			void Destroy();
 			bool Exists();
 
