@@ -8,6 +8,13 @@ namespace Interface
 {
 	namespace Gui
 	{
+		struct FrameBuffer 
+		{
+		public:
+			int width;
+			int height;
+		};
+		
 		class Window
 		{
 		public:
@@ -22,11 +29,17 @@ namespace Interface
 			inline int GetHeight() const { return height; }
 			inline const char* GetTitle() const { return title; }
 			inline bool IsFrameRateLimited() const { return frameRateLimited; }
+			
+			inline FrameBuffer GetFrameBuffer() const { return frameBuffer; }
+			inline int GetFrameBufferWidth() const { return frameBuffer.width; }
+			inline int GetFrameBufferHeight() const { return frameBuffer.height; }
 
 			void Update();
 			void Render();
 			void SetTitle(const char* title);
 			void SetCursorPos(int x, int y);
+			void SetViewportSize(int width, int height);
+			void UpdateViewportSize();
 			void LimitFrameRate(bool value);
 			void DisableCursor(bool value);
 			void SetIconImage(Image Image);
@@ -35,12 +48,15 @@ namespace Interface
 			bool Exists();
 
 		private:
-			int width;
-			int height;
-			const char* title;
-			bool frameRateLimited = true;
 			GLFWwindow* windowID;
 
+			int width;
+			int height;
+			FrameBuffer frameBuffer;
+
+			const char* title;
+			bool frameRateLimited = true;
+			
 			void create();
 		};
 	}

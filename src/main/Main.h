@@ -2,7 +2,7 @@
 
 #include <Photon.h>
 
-extern Window window;
+extern Interface::Gui::Window window;
 
 class FirstPersonCamera 
 {

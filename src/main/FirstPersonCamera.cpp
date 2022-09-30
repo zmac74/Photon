@@ -51,5 +51,5 @@ Matrix4x4 FirstPersonCamera::getMatrix()
 	
 	Matrix4x4 matrix = Math::LookAt(position, lookPoint, Vector3(0, 1, 0));
 
-	return Math::Perspective(ToRadians(fov), 800.0f / 600.0f, 0.1f, 1000.0f) * matrix;
+	return Math::Perspective(ToRadians(fov), (float)window.GetFrameBufferWidth() / (float)window.GetFrameBufferHeight(), 0.1f, 1000.0f) * matrix;
 }

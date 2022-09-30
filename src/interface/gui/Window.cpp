@@ -1,6 +1,7 @@
 #include <GLFW/glfw3.h>
 
 #include <interface/gui/Window.h>
+#include <renderer/Renderer.h>
 #include <scene/importer/Importer.h>
 #include <scene/Scene.h>
 
@@ -33,6 +34,10 @@ void Window::create()
 
 void Window::Update() 
 {
+	FrameBuffer frameBuffer;
+	glfwGetFramebufferSize(windowID, &frameBuffer.width, &frameBuffer.height);
+	this->frameBuffer = frameBuffer;
+
 	glfwPollEvents();
 }
 
@@ -49,6 +54,16 @@ void Window::SetTitle(const char* title)
 void Window::SetCursorPos(int x, int y) 
 {
 	glfwSetCursorPos(windowID, x, y);
+}
+
+void Window::SetViewportSize(int width, int height) 
+{
+	Renderer::SetViewportSize(width, height);
+}
+
+void Window::UpdateViewportSize() 
+{
+	Renderer::SetViewportSize(frameBuffer.width, frameBuffer.height);
 }
 
 void Window::LimitFrameRate(bool value) 

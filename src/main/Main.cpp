@@ -58,6 +58,7 @@ static void update()
 {
 	Input::Update();
 	window.Update();
+	window.UpdateViewportSize();
 	camera.update();
 }
 
