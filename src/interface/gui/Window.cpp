@@ -11,6 +11,8 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 void mouseEnterCallback(GLFWwindow* window, int entered);
 void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
+void updateJoystickInput();
+
 void Window::create() 
 {
 	windowID = glfwCreateWindow(width, height, title, NULL, NULL);
@@ -38,6 +40,7 @@ void Window::Update()
 	glfwGetFramebufferSize(windowID, &frameBuffer.width, &frameBuffer.height);
 	this->frameBuffer = frameBuffer;
 
+	updateJoystickInput();
 	glfwPollEvents();
 }
 

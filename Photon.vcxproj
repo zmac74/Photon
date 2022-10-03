@@ -138,6 +138,7 @@
     <ClCompile Include="src\debug\profiler\ScopeTimer.cpp" />
     <ClCompile Include="src\interface\gui\Window.cpp" />
     <ClCompile Include="src\interface\input\Input.cpp" />
+    <ClCompile Include="src\interface\input\Joystick.cpp" />
     <ClCompile Include="src\interface\input\Keyboard.cpp" />
     <ClCompile Include="src\interface\input\Mouse.cpp" />
     <ClCompile Include="src\main\FirstPersonCamera.cpp" />
@@ -173,9 +174,6 @@
     <None Include=".gitignore" />
     <None Include="Shader Library\standard\Fragment.glsl" />
     <None Include="Shader Library\standard\Vertex.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\..\OneDrive\Desktop\Photon-logos\Photon-logos.jpeg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

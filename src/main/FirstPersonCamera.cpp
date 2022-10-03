@@ -2,33 +2,62 @@
 
 #include "Main.h"
 
-static const float SENSITIVITY = 0.1f;
-static const float ZOOM_SENSITIVITY = 5.0f;
+static const float MOUSE_SENSITIVITY = 0.1f;
+static const float JOYSTICK_SENSITIVITY = 150.0f;
+
+static const float SCROLL_ZOOM_SENSITIVITY = 5.0f;
+static const float JOYSTICK_ZOOM_SENSITIVITY = 80.0f;
+
 static const float MAX_FOV = 70.0f;
 static const float MIN_FOV = 1.0f;
 
-static float cameraMovementSpeed = 4;
+static const float CAMERA_MOVEMENT_SPEED = 4;
+
 float yaw = 0;
 float pitch = 0;
 float fov = 70.0f;
 
+void  FirstPersonCamera::processMouseInput()
+{
+	if (Input::keys[(int)'W']) translate(0, 0, -CAMERA_MOVEMENT_SPEED * GetDeltaTime());
+	if (Input::keys[(int)'S']) translate(0, 0, CAMERA_MOVEMENT_SPEED * GetDeltaTime());
+	if (Input::keys[(int)'A']) translate(-CAMERA_MOVEMENT_SPEED * GetDeltaTime(), 0, 0);
+	if (Input::keys[(int)'D']) translate(CAMERA_MOVEMENT_SPEED * GetDeltaTime(), 0, 0);
+	if (Input::keys[(int)'E']) translate(0, CAMERA_MOVEMENT_SPEED * GetDeltaTime(), 0);
+	if (Input::keys[(int)'Q']) translate(0, -CAMERA_MOVEMENT_SPEED * GetDeltaTime(), 0);
+
+	yaw -= Input::cursorDeltaXPos * MOUSE_SENSITIVITY * (fov / MAX_FOV);
+	pitch -= Input::cursorDeltaYPos * MOUSE_SENSITIVITY * (fov / MAX_FOV);
+
+	fov -= Input::scrollYOffset * SCROLL_ZOOM_SENSITIVITY;
+}
+
+void  FirstPersonCamera::processJoystickInput()
+{
+	if (Input::Joystick::leftAnalog.GetLength() > 0.15f)
+		translate(Input::Joystick::leftAnalog.GetX() * CAMERA_MOVEMENT_SPEED * GetDeltaTime(), 0, Input::Joystick::leftAnalog.GetY() * CAMERA_MOVEMENT_SPEED * GetDeltaTime());
+
+	if (Input::Joystick::buttonA) translate(0, CAMERA_MOVEMENT_SPEED * GetDeltaTime(), 0);
+	if (Input::Joystick::buttonX) translate(0, -CAMERA_MOVEMENT_SPEED * GetDeltaTime(), 0);
+
+	if (Input::Joystick::rightAnalog.GetLength() > 0.15f)
+	{
+		yaw -= Input::Joystick::rightAnalog.GetX() * JOYSTICK_SENSITIVITY * GetDeltaTime() * (fov / MAX_FOV);
+		pitch -= Input::Joystick::rightAnalog.GetY() * JOYSTICK_SENSITIVITY  * GetDeltaTime() * (fov / MAX_FOV);
+	}
+
+	fov -= Input::Joystick::buttonLeftBumper * GetDeltaTime() * JOYSTICK_ZOOM_SENSITIVITY;
+	fov += Input::Joystick::buttonRightBumper * GetDeltaTime() * JOYSTICK_ZOOM_SENSITIVITY;
+}
+
 void FirstPersonCamera::update() 
 {
-	if (Input::keys[(int)'W']) translate(0, 0, -cameraMovementSpeed * GetDeltaTime());
-	if (Input::keys[(int)'S']) translate(0, 0, cameraMovementSpeed * GetDeltaTime());
-	if (Input::keys[(int)'A']) translate(-cameraMovementSpeed * GetDeltaTime(), 0, 0);
-	if (Input::keys[(int)'D']) translate(cameraMovementSpeed * GetDeltaTime(), 0, 0);
-	if (Input::keys[(int)'E']) translate(0, cameraMovementSpeed * GetDeltaTime(), 0);
-	if (Input::keys[(int)'Q']) translate(0, -cameraMovementSpeed * GetDeltaTime(), 0);
-
-	yaw -= Input::cursorDeltaXPos * SENSITIVITY * (fov / MAX_FOV);
-	pitch -= Input::cursorDeltaYPos * SENSITIVITY * (fov / MAX_FOV);
+	processMouseInput();
+	processJoystickInput();
 
 	if (pitch >= 89.0f) pitch = 89.0f;
 	if (pitch <= -89.0f) pitch = -89.0f;
 
-	fov -= Input::scrollYOffset * ZOOM_SENSITIVITY;
-	
 	if (fov >= MAX_FOV) fov = MAX_FOV;
 	if (fov <= MIN_FOV) fov = MIN_FOV;
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utils/math/Vector.h>
+
 namespace Interface 
 {
 	namespace Input
@@ -18,6 +20,30 @@ namespace Interface
 		extern double scrollYOffset;
 
 		void Update();
+
+		namespace Joystick 
+		{
+			extern bool buttonA;
+			extern bool buttonB;
+			extern bool buttonX;
+			extern bool buttonY;
+			extern bool buttonLeftBumper;
+			extern bool buttonRightBumper;
+			extern bool buttonBack;
+			extern bool buttonStart;
+			extern bool buttonGuide;
+			extern bool buttonLeftThumb;
+			extern bool buttonRightThumb;
+			extern bool buttonDPadUp;
+			extern bool buttonDPadRight;
+			extern bool buttonDPadDown;
+			extern bool buttonDPadLeft;
+
+			extern Vector2 leftAnalog;
+			extern Vector2 rightAnalog;
+			extern float leftTrigger;
+			extern float rightTrigger;
+		};
 	}
 }
 

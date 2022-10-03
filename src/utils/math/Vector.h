@@ -137,7 +137,7 @@ namespace Utils
 			inline void SetX(float x) { vector.x = x; }
 			inline void SetY(float y) { vector.y = y; }
 
-			inline float GetLength() const { return vector.length(); }
+			inline float GetLength() const { return sqrtf((vector.x * vector.x) + (vector.y * vector.y)); }
 
 			inline glm::vec2 GetGLMVector() const { return vector; }
 
@@ -302,7 +302,7 @@ namespace Utils
 			inline void SetY(float y) { vector.y = y; }
 			inline void SetZ(float z) { vector.z = z; }
 
-			inline float GetLength() const { return vector.length(); }
+			inline float GetLength() const { return sqrtf((vector.x * vector.x) + (vector.y * vector.y) + (vector.z * vector.z)); }
 
 			inline glm::vec3 GetGLMVector() const { return vector; }
 
@@ -478,7 +478,7 @@ namespace Utils
 			inline void SetZ(float z) { vector.z = z; }
 			inline void SetW(float w) { vector.w = w; }
 
-			inline float GetLength() const { return vector.length(); }
+			inline float GetLength() const { return sqrtf((vector.x * vector.x) + (vector.y * vector.y) + (vector.z * vector.z) + (vector.w * vector.w)); }
 
 			inline glm::vec4 GetGLMVector() const { return vector; }
 

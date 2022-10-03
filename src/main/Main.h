@@ -15,5 +15,7 @@ public:
 private:
 	Vector3 position;
 
+	void processMouseInput();
+	void processJoystickInput();
 	void translate(float x, float y, float z);
 };
