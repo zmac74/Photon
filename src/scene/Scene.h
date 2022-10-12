@@ -1,8 +1,7 @@
 #pragma once
 
-#include <vector>
-
 #include <utils/collection/Buffer.h>
+#include <utils/collection/Color.h>
 #include <utils/math/Vector.h>
 #include <utils/math/Matrix.h>
 
@@ -13,6 +12,16 @@ namespace Scene
 	struct Mesh;
 	struct VertexBuffer;
 	struct Shader;
+	struct Image;
+	struct Texture;
+	struct Node;
+	struct DirectionalLight;
+	struct PointLight;
+	struct AreaLight;
+	struct SpotLight;
+	struct AmbientLight;
+	struct Model;
+	struct Camera;
 
 	struct VertexBuffer
 	{
@@ -33,14 +42,8 @@ namespace Scene
 	public:
 		unsigned int vaoID = 0;
 		unsigned int vertexCount = 0;
-		std::vector<VertexBuffer> vbos = std::vector<VertexBuffer>();
+		ArrayList<VertexBuffer> vbos = ArrayList<VertexBuffer>();
 		ElementBuffer elementBuffer;
-	};
-
-	struct Mesh
-	{
-	public:
-		VertexArray vertexArray;
 	};
 
 	struct Shader
@@ -93,6 +96,131 @@ namespace Scene
 
 	private:
 		unsigned int textureID = 0;
+	};
+
+	enum NodeType
+	{
+		MESH = 0,
+		DIRECTIONAL_LIGHT = 1,
+		POINT_LIGHT = 2,
+		AREA_LIGHT = 3,
+		SPOT_LIGHT = 4,
+		AMBIENT_LIGHT = 5,
+		CAMERA = 6
+	};
+
+	struct Node 
+	{
+	public:
+		const char* name;
+
+		int type;
+		int ID;
+
+		Matrix4x4 offsetTransform;
+		Matrix4x4 transform;
+	};
+
+	struct Mesh : Node
+	{
+	public:
+		ArrayList<float> positions;
+		ArrayList<float> textureCoords;
+		ArrayList<float> normals;
+		ArrayList<float> colors;
+		ArrayList<float> tangents;
+		ArrayList<int> indices;
+
+		VertexArray vertexArray;
+	};
+
+	struct DirectionalLight : Node
+	{
+	public:
+		Vector3 direction;
+
+		Color3 ambientColor;
+		Color3 diffuseColor;
+		Color3 specularColor;
+	};
+
+	struct PointLight : Node
+	{
+	public:
+		float constantAttenuation;
+		float linearAttenuation;
+		float quadraticAttenuation;
+
+		Color3 ambientColor;
+		Color3 diffuseColor;
+		Color3 specularColor;
+	};
+
+	struct AreaLight : Node
+	{
+	public:
+		Vector3 direction;
+
+		float constantAttenuation;
+		float linearAttenuation;
+		float quadraticAttenuation;
+
+		float areaWidth;
+		float areaHeight;
+
+		Color3 ambientColor;
+		Color3 diffuseColor;
+		Color3 specularColor;
+	};
+
+	struct SpotLight : Node
+	{
+	public:
+		Vector3 direction;
+		float innerConeAngle;
+		float outerConeAngle;
+
+		float constantAttenuation;
+		float linearAttenuation;
+		float quadraticAttenuation;
+
+		Color3 ambientColor;
+		Color3 diffuseColor;
+		Color3 specularColor;
+	};
+
+	struct AmbientLight : Node
+	{
+	public:
+		Color3 ambientColor;
+		Color3 diffuseColor;
+		Color3 specularColor;
+	};
+
+	struct Camera : Node
+	{
+	public:
+		Matrix4x4 cameraMatrix;
+		
+		float nearPlane;
+		float farPlane;
+
+		float aspectRatio;
+		float fovX;
+	};
+
+	struct Model
+	{
+	public:
+		ArrayList<Mesh> meshes;
+
+		ArrayList<DirectionalLight> directionalLights;
+		ArrayList<PointLight> pointLights;
+		ArrayList<AreaLight> areaLights;
+		ArrayList<SpotLight> spotLights;
+		ArrayList<AmbientLight> ambientLights;
+
+		ArrayList<Camera> cameras;
 	};
 }
 

@@ -20,6 +20,8 @@
     <ClCompile Include="src\scene\importer\ImageLoader.cpp" />
     <ClCompile Include="src\scene\importer\TextureLoader.cpp" />
     <ClCompile Include="src\interface\input\Joystick.cpp" />
+    <ClCompile Include="src\scene\importer\ModelLoader.cpp" />
+    <ClCompile Include="src\utils\math\Procedual.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\interface\gui\Window.h" />
@@ -38,6 +40,7 @@
     <ClInclude Include="src\utils\math\Matrix.h" />
     <ClInclude Include="src\interface\input\Input.h" />
     <ClInclude Include="src\core\system\Time.h" />
+    <ClInclude Include="src\utils\math\Procedual.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader Library\standard\Vertex.glsl" />

@@ -7,7 +7,7 @@
 static int viewportWidth = 1;
 static int viewportHeight = 1;
 
-void Renderer::ClearFrame(Color24 color)
+void Renderer::ClearFrame(Color3 color)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(color.r, color.g, color.b, 1.0f);

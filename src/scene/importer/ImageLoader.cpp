@@ -7,11 +7,16 @@
 #include <scene/Scene.h>
 #include <debug/Debug.h>
 
-ArrayList<unsigned char*> images = ArrayList<unsigned char*>();
+static ArrayList<unsigned char*> images = ArrayList<unsigned char*>();
 
 void initImageLoader()
 {
 	stbi_set_flip_vertically_on_load(true);
+}
+
+Image Scene::Importer::LoadImage(unsigned char* pixels, int width, int height, int channels) 
+{
+	return Image(width, height, channels, pixels);
 }
 
 Image Scene::Importer::LoadImage(const char* path) 

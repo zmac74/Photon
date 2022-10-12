@@ -5,8 +5,8 @@
 
 namespace Renderer 
 {
-	void Render(VertexArray vertexArray, Texture texture, Shader shader);
-	void ClearFrame(Color24 color);
+	void Render(Model model, Texture texture, Shader shader);
+	void ClearFrame(Color3 color);
 	void SetViewportSize(int width, int height);
 }
 

@@ -28,6 +28,12 @@ Texture Scene::Importer::LoadTexture(Image image)
 	return Texture(textureID);
 }
 
+Texture Scene::Importer::LoadTexture(unsigned char* pixels, int width, int height, int channels)
+{
+	Image image = LoadImage(pixels, width, height, channels);
+	return LoadTexture(image);
+}
+
 Texture Scene::Importer::LoadTexture(const char* path) 
 {
 	Image image = LoadImage(path);

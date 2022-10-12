@@ -7,6 +7,7 @@ layout (location = 3) in vec4 iColor;
 layout (location = 4) in vec3 iTangent;
 
 out vec4 color;
+out vec3 normal;
 out vec2 textureCoord;
 
 uniform mat4 transform;
@@ -14,7 +15,8 @@ uniform mat4 camera;
 
 void main()
 {
-	gl_Position = camera * vec4(iPosition, 1.0);
+	gl_Position = camera * transform * vec4(iPosition, 1.0);
 	color = iColor;
+	normal = iNormal;
 	textureCoord = iTextureCoord;
 }

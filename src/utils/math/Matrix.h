@@ -35,11 +35,33 @@ namespace Utils
 
 			inline void Scale(float x, float y, float z) { matrix = glm::scale(matrix, glm::vec3(x, y, z)); }
 
+			inline Matrix4x4 Multiply(Matrix4x4 matrix) const { return Matrix4x4((float*)glm::value_ptr(this->matrix * matrix.GetGLMMatrix())); }
+
 			inline Matrix4x4 operator * (Matrix4x4 matrix) const { return Matrix4x4((float*)glm::value_ptr(this->matrix * matrix.GetGLMMatrix())); }
+
+			inline void Set00(float val) { matrix[0][0] = val; }
+			inline void Set01(float val) { matrix[0][1] = val; }
+			inline void Set02(float val) { matrix[0][2] = val; }
+			inline void Set03(float val) { matrix[0][3] = val; }
+
+			inline void Set10(float val) { matrix[1][0] = val; }
+			inline void Set11(float val) { matrix[1][1] = val; }
+			inline void Set12(float val) { matrix[1][2] = val; }
+			inline void Set13(float val) { matrix[1][3] = val; }
+
+			inline void Set20(float val) { matrix[2][0] = val; }
+			inline void Set21(float val) { matrix[2][1] = val; }
+			inline void Set22(float val) { matrix[2][2] = val; }
+			inline void Set23(float val) { matrix[2][3] = val; }
+			
+			inline void Set30(float val) { matrix[3][0] = val; }
+			inline void Set31(float val) { matrix[3][1] = val; }
+			inline void Set32(float val) { matrix[3][2] = val; }
+			inline void Set33(float val) { matrix[3][3] = val; }
 
 			Vector4 operator [] (int index) const 
 			{ 
-				glm::vec4 vector = matrix[0];
+				glm::vec4 vector = matrix[index];
 				return Vector4(vector.x, vector.y, vector.z, vector.w);
 			}
 			

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <stdlib.h>
 #include <malloc.h>
 
@@ -14,16 +13,16 @@ namespace Utils
 		class ArrayList 
 		{
 		public:
-			ArrayList() 
-			{
-				data = (Type*)malloc(sizeof(Type) * capacity);
-			}
+			ArrayList() {}
 
 			ArrayList(int capacity) : capacity(capacity)
 			{
 				if (capacity == 0) Assert("Error: Arraylist has capacity of zero.");
-				data = (Type*)malloc(sizeof(Type) * capacity);
-				allocatedElements = capacity;
+			}
+
+			~ArrayList() 
+			{
+				//if (allocatedElements != 0) free(data);
 			}
 
 			void Add(Type element)
@@ -32,8 +31,8 @@ namespace Utils
 				{
 					Type* newAlloc = (Type*)malloc((sizeof(Type) * elements) + (sizeof(Type) * capacity));
 					std::memcpy(newAlloc, data, elements * sizeof(Type));
-					free(data);
-
+					if (allocatedElements != 0) free(data);
+					
 					data = newAlloc;
 					allocatedElements += capacity;
 				}
@@ -60,6 +59,18 @@ namespace Utils
 				return data[index];
 			}
 
+			Type& GetLastElement() const 
+			{
+				if (elements == 0) Assert("Error: Arraylist size is zero.");
+				return data[elements - 1];
+			}
+
+			Type& GetFirstElement() const
+			{
+				if (elements == 0) Assert("Error: Arraylist size is zero.");
+				return data[0];
+			}
+
 			inline int GetLength() const { return elements; }
 
 			inline int GetAllocatedLength() const { return allocatedElements; }
@@ -72,10 +83,10 @@ namespace Utils
 
 
 		private:
-			Type* data;
+			Type* data = nullptr;
 
 			int capacity = 1;
-			int allocatedElements = 1;
+			int allocatedElements = 0;
 			int elements = 0;
 		};
 		

@@ -104,14 +104,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\micha\OneDrive\Desktop\Libraries\STB;C:\Users\micha\OneDrive\Desktop\Libraries\GLM\library;C:\Users\micha\OneDrive\Desktop\Libraries\GLEW\include;C:\Users\micha\source\repos\Photon\src;C:\Users\micha\OneDrive\Desktop\Libraries\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\micha\OneDrive\Desktop\Libraries\FastNoiseLite;C:\Users\micha\OneDrive\Desktop\Libraries\Assimp\include;C:\Users\micha\OneDrive\Desktop\Libraries\STB;C:\Users\micha\OneDrive\Desktop\Libraries\GLM\library;C:\Users\micha\OneDrive\Desktop\Libraries\GLEW\include;C:\Users\micha\source\repos\Photon\src;C:\Users\micha\OneDrive\Desktop\Libraries\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\micha\OneDrive\Desktop\Libraries\GLEW\lib\Release\x64;C:\Users\micha\OneDrive\Desktop\Libraries\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\micha\OneDrive\Desktop\Libraries\Assimp\build\lib\Release;C:\Users\micha\OneDrive\Desktop\Libraries\GLEW\lib\Release\x64;C:\Users\micha\OneDrive\Desktop\Libraries\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc143-mt.lib;glew32s.lib;opengl32.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -148,8 +148,10 @@
     <ClCompile Include="src\renderer\shader\Shader.cpp" />
     <ClCompile Include="src\scene\importer\ImageLoader.cpp" />
     <ClCompile Include="src\scene\importer\MeshLoader.cpp" />
+    <ClCompile Include="src\scene\importer\ModelLoader.cpp" />
     <ClCompile Include="src\scene\importer\ShaderLoader.cpp" />
     <ClCompile Include="src\scene\importer\TextureLoader.cpp" />
+    <ClCompile Include="src\utils\math\Procedual.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Core.h" />
@@ -167,6 +169,7 @@
     <ClInclude Include="src\utils\collection\Color.h" />
     <ClInclude Include="src\utils\math\Arithmetic.h" />
     <ClInclude Include="src\utils\math\Matrix.h" />
+    <ClInclude Include="src\utils\math\Procedual.h" />
     <ClInclude Include="src\utils\math\Vector.h" />
   </ItemGroup>
   <ItemGroup>

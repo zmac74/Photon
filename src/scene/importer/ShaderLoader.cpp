@@ -4,7 +4,7 @@
 
 #include <scene/Scene.h>
 #include <scene/importer/Importer.h>
-#include <vector>
+#include <utils/collection/Buffer.h>
 #include <debug/Debug.h>
 
 static void createShader(const char* shaderFile);
@@ -12,7 +12,7 @@ static void getCompileStatus(int shaderID);
 static void createProgram();
 
 static Shader shader;
-static std::vector<Shader> shaders = std::vector<Shader>();
+static ArrayList<Shader> shaders = ArrayList<Shader>();
 
 Shader Scene::Importer::LoadShader(const char* vertexShader, const char* fragmentShader) 
 {
@@ -22,7 +22,7 @@ Shader Scene::Importer::LoadShader(const char* vertexShader, const char* fragmen
 	createShader(fragmentShader);
 	createProgram();
 
-	shaders.emplace_back(shader);
+	shaders.Add(shader);
 	return shader;
 }
 
@@ -94,7 +94,7 @@ static void createShader(const char* shaderFile)
 
 void Scene::Importer::DeleteShaderRegistry() 
 {
-	for (int i = 0; i < shaders.size(); i++) 
+	for (int i = 0; i < shaders.GetLength(); i++) 
 	{
 		glDeleteProgram(shaders[i].shaderID);
 		if (shaders[i].vertexStageID != -1) glDeleteShader(shaders[i].vertexStageID);
