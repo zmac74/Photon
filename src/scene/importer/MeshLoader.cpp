@@ -7,10 +7,10 @@
 static VertexArray vertexArray;
 static ArrayList<VertexArray> vertexArrays = ArrayList<VertexArray>();
 
-static void loadVertexBuffer(int index, int vecSize, ArrayList<float> data);
+static void loadVertexBuffer(int index, int vecSize, const ArrayList<float>& data);
 static void loadElementBuffer(ArrayList<int> data);
 
-VertexArray Scene::Importer::LoadVertexArray(ArrayList<float> positions, const ArrayList<float>& textureCoords, const ArrayList<float>& normals, const ArrayList<float>& colors, const ArrayList<float>& tangents, const ArrayList<int>& indices)
+VertexArray Scene::Importer::LoadVertexArray(const ArrayList<float>& positions, const ArrayList<float>& textureCoords, const ArrayList<float>& normals, const ArrayList<float>& colors, const ArrayList<float>& tangents, const ArrayList<int>& indices)
 {
 	vertexArray = VertexArray{};
 	
@@ -30,7 +30,7 @@ VertexArray Scene::Importer::LoadVertexArray(ArrayList<float> positions, const A
 	return vertexArray;
 }
 
-static void loadVertexBuffer(int index, int vecSize, ArrayList<float> data)
+static void loadVertexBuffer(int index, int vecSize, const ArrayList<float>& data)
 {
 	VertexBuffer vertexBuffer;
 	vertexBuffer.attributeIndex = index;

@@ -57,11 +57,14 @@ static int MESH_NAMING_OFFSET = 0;
 static int LIGHT_NAMING_OFFSET = 0;
 static int CAMERA_NAMING_OFFSET = 0;
 
+static void calculateModelDirectory(const char* path);
 static void calculateNodeNamingOffset(const char* path);
 static void processScene(const aiScene* scene);
-static void processMesh(const aiMesh* srcMesh);
+static void processMesh(const aiMesh* srcMesh, const aiScene* srcScene);
 static void processLight(const aiLight* srcLight);
 static void processCamera(const aiCamera* srcCamera);
+static void processMaterial(const aiMaterial* srcMaterial, const aiScene* srcScene);
+static ArrayList<Texture> processTexture(const aiMaterial* srcMaterial, aiTextureType type, const aiScene* srcScene);
 static void processNodeData(aiString name, Node& nodeData, NodeType type, int namingOffset);
 static void processTransform(const aiNode* node, Matrix4x4* transform);
 
@@ -80,8 +83,10 @@ static void processAmbientLight(const aiLight* srcLight);
 
 static Matrix4x4 convertMatrixFormat(const aiMatrix4x4& srcMatrix);
 
+static std::string directory;
 static Model model;
 static aiNode* rootNode = nullptr;
+static aiMaterial** materials = nullptr;
 
 Model Scene::Importer::LoadModel(const char* path, unsigned int flags) 
 {
@@ -90,17 +95,25 @@ Model Scene::Importer::LoadModel(const char* path, unsigned int flags)
 
 	const aiScene* scene = importer.ReadFile(path, flags);
 	if (scene == nullptr) Debug::Assert("Error: Could not load model.");
+	materials = scene->mMaterials;
 
+	calculateModelDirectory(path);
 	calculateNodeNamingOffset(path);
 	processScene(scene);
-
+	
 	importer.FreeScene();
 	return model;
 }
 
 Model Scene::Importer::LoadModel(const char* path)
 {
-	return LoadModel(path, POSTPROCESS_TRIANGULATE);
+	return LoadModel(path, POSTPROCESS_TRIANGULATE | POSTPROCESS_PRE_TRANSFORM_VERTICES);
+}
+
+static void calculateModelDirectory(const char* path) 
+{
+	std::string str = std::string(path);
+	directory = str.substr(0, str.find_last_of("/") + 1);
 }
 
 static void calculateNodeNamingOffset(const char* path) 
@@ -125,7 +138,7 @@ static void calculateNodeNamingOffset(const char* path)
 static void processScene(const aiScene* scene) 
 {
 	rootNode = scene->mRootNode;
-	if (scene->HasMeshes()) for (int i = 0; i < scene->mNumMeshes; i++)	processMesh(scene->mMeshes[i]);
+	if (scene->HasMeshes()) for (int i = 0; i < scene->mNumMeshes; i++)	processMesh(scene->mMeshes[i], scene);
 	if (scene->HasLights()) for (int i = 0; i < scene->mNumLights; i++) processLight(scene->mLights[i]);
 	if (scene->HasCameras()) for (int i = 0; i < scene->mNumCameras; i++) processCamera(scene->mCameras[i]);
 }
@@ -135,11 +148,11 @@ static void processNodeData(aiString name, Node& nodeData, NodeType type, int na
 	std::string str = std::string(name.C_Str()).substr(0, name.length + namingOffset);
 	nodeData.name = str.c_str();
 	nodeData.type = type;
-	nodeData.ID = model.meshes.GetLength() - 1;
+	nodeData.ID = 0;//model.meshes.GetLength() - 1;
 
 	aiNode* node = rootNode->FindNode(nodeData.name);
-	nodeData.offsetTransform = convertMatrixFormat(node->mTransformation);
-	processTransform(node, &nodeData.transform);
+	//nodeData.offsetTransform = convertMatrixFormat(node->mTransformation);
+	//processTransform(node, &nodeData.transform);
 }
 
 static void processTransform(const aiNode* node, Matrix4x4* transform) 
@@ -151,7 +164,7 @@ static void processTransform(const aiNode* node, Matrix4x4* transform)
 	processTransform(node->mParent, transform);
 }
 
-static void processMesh(const aiMesh* srcMesh) 
+static void processMesh(const aiMesh* srcMesh, const aiScene* srcScene)
 {
 	model.meshes.Add(Mesh());
 	Mesh& mesh = model.meshes.GetLastElement();
@@ -166,13 +179,16 @@ static void processMesh(const aiMesh* srcMesh)
 	if (srcMesh->HasFaces()) processMeshIndices(srcMesh, mesh.indices);
 
 	mesh.vertexArray = LoadVertexArray(mesh.positions, mesh.textureCoords, mesh.normals, mesh.colors, mesh.tangents, mesh.indices);
+
+	mesh.materialID = model.materials.GetLength();
+	processMaterial(materials[srcMesh->mMaterialIndex], srcScene);
 }
 
 static void processMeshPositions(const aiMesh* mesh, ArrayList<float>& positions)
 {
 	const unsigned int positionCount = mesh->mNumVertices;
 
-	for (int i = 0; i < positionCount; i++) 
+	for (int i = 0; i < positionCount; i++)
 	{
 		const aiVector3D vector = mesh->mVertices[i];
 		positions.Add(vector.x);
@@ -233,14 +249,14 @@ static void processMeshTangents(const aiMesh* mesh, ArrayList<float>& tangents)
 	}
 }
 
-static void processMeshIndices(const aiMesh* mesh, ArrayList<int>& indices) 
+static void processMeshIndices(const aiMesh* mesh, ArrayList<int>& indices)
 {
 	const unsigned int faceCount = mesh->mNumFaces;
-	
-	for (int i = 0; i < faceCount; i++) 
+
+	for (int i = 0; i < faceCount; i++)
 	{
 		aiFace face = mesh->mFaces[i];
-		for (int j = 0; j < face.mNumIndices; j++) 
+		for (int j = 0; j < face.mNumIndices; j++)
 		{
 			indices.Add(face.mIndices[j]);
 		}
@@ -359,6 +375,117 @@ static void processCamera(const aiCamera* srcCamera)
 	aiMatrix4x4 matrix;
 	srcCamera->GetCameraMatrix(matrix);
 	camera.cameraMatrix = convertMatrixFormat(matrix);
+}
+
+static void processMaterial(const aiMaterial* srcMaterial, const aiScene* srcScene)
+{
+	model.materials.Add(Material());
+	Material& material = model.materials.GetLastElement();
+
+	material.shader = LoadShader("Shader Library/albedo/Vertex.glsl", "Shader Library/albedo/Fragment.glsl");
+
+	aiString name;
+	srcMaterial->Get(AI_MATKEY_NAME, name);
+	material.name = name.C_Str();
+
+	aiColor3D baseColor;
+	srcMaterial->Get(AI_MATKEY_BASE_COLOR, baseColor);
+	material.baseColor = Color3(baseColor.r, baseColor.g, baseColor.b);
+
+	aiColor3D diffuseColor;
+	srcMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, material.diffuseColor);
+	material.baseColor = Color3(diffuseColor.r, diffuseColor.g, diffuseColor.b);
+
+	aiColor3D emissiveColor;
+	srcMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, material.emissiveColor);
+	material.baseColor = Color3(emissiveColor.r, emissiveColor.g, emissiveColor.b);
+
+	aiColor3D ambientColor;
+	srcMaterial->Get(AI_MATKEY_COLOR_AMBIENT, material.ambientColor);
+	material.baseColor = Color3(ambientColor.r, ambientColor.g, ambientColor.b);
+
+	aiColor3D reflectiveColor;
+	srcMaterial->Get(AI_MATKEY_COLOR_REFLECTIVE, material.reflectiveColor);
+	material.baseColor = Color3(reflectiveColor.r, reflectiveColor.g, reflectiveColor.b);
+
+	aiColor3D specularColor;
+	srcMaterial->Get(AI_MATKEY_COLOR_SPECULAR, material.specularColor);
+	material.baseColor = Color3(specularColor.r, specularColor.g, specularColor.b);
+
+	aiColor3D transparentColor;
+	srcMaterial->Get(AI_MATKEY_COLOR_TRANSPARENT, material.transparentColor);
+	material.baseColor = Color3(transparentColor.r, transparentColor.g, transparentColor.b);
+
+	srcMaterial->Get(AI_MATKEY_REFLECTIVITY, material.reflectivity);
+	srcMaterial->Get(AI_MATKEY_ROUGHNESS_FACTOR, material.roughnessFactor);
+	srcMaterial->Get(AI_MATKEY_SHEEN_COLOR_FACTOR, material.sheenColorFactor);
+	srcMaterial->Get(AI_MATKEY_SHEEN_ROUGHNESS_FACTOR, material.sheenRoughnessFactor);
+	srcMaterial->Get(AI_MATKEY_SPECULAR_FACTOR, material.specularFactor);
+	srcMaterial->Get(AI_MATKEY_ANISOTROPY_FACTOR, material.anisotrophyFactor);
+	srcMaterial->Get(AI_MATKEY_CLEARCOAT_FACTOR, material.clearcoatFactor);
+	srcMaterial->Get(AI_MATKEY_CLEARCOAT_ROUGHNESS_FACTOR, material.clearcoatRoughnessFactor);
+	srcMaterial->Get(AI_MATKEY_EMISSIVE_INTENSITY, material.emissiveIntensity);
+	srcMaterial->Get(AI_MATKEY_GLOSSINESS_FACTOR, material.glossinessFactor);
+	srcMaterial->Get(AI_MATKEY_METALLIC_FACTOR, material.metallicFactor);
+	srcMaterial->Get(AI_MATKEY_OPACITY, material.opacity);
+	srcMaterial->Get(AI_MATKEY_SHININESS, material.shininess);
+	srcMaterial->Get(AI_MATKEY_SHININESS_STRENGTH, material.shininessStrength);
+	srcMaterial->Get(AI_MATKEY_REFRACTI, material.refracti);
+
+	srcMaterial->Get(AI_MATKEY_ENABLE_WIREFRAME, material.wireframe);
+	srcMaterial->Get(AI_MATKEY_TWOSIDED, material.twoSided);
+
+	material.baseColorTextures = processTexture(srcMaterial, aiTextureType_BASE_COLOR, srcScene);
+	material.ambientTextures = processTexture(srcMaterial, aiTextureType_DIFFUSE, srcScene);
+	material.diffuseTextures = processTexture(srcMaterial, aiTextureType_AMBIENT, srcScene);
+	material.ambientOcclusionTextures = processTexture(srcMaterial, aiTextureType_AMBIENT_OCCLUSION, srcScene);
+	material.clearCoatTextures = processTexture(srcMaterial, aiTextureType_CLEARCOAT, srcScene);
+	material.diffuseRoughnessTextures = processTexture(srcMaterial, aiTextureType_DIFFUSE_ROUGHNESS, srcScene);
+	material.displacementTextures = processTexture(srcMaterial, aiTextureType_DISPLACEMENT, srcScene);
+	material.emissionColorTextures = processTexture(srcMaterial, aiTextureType_EMISSION_COLOR, srcScene);
+	material.emissiveTextures = processTexture(srcMaterial, aiTextureType_EMISSIVE, srcScene);
+	material.lightMapTextures = processTexture(srcMaterial, aiTextureType_LIGHTMAP, srcScene);
+	material.metalnessTextures = processTexture(srcMaterial, aiTextureType_METALNESS, srcScene);
+	material.normalTextures = processTexture(srcMaterial, aiTextureType_NORMALS, srcScene);
+	material.opacityTextures = processTexture(srcMaterial, aiTextureType_OPACITY, srcScene);
+	material.reflectionTextures = processTexture(srcMaterial, aiTextureType_REFLECTION, srcScene);
+	material.sheenTextures = processTexture(srcMaterial, aiTextureType_SHEEN, srcScene);
+	material.shininessTextures = processTexture(srcMaterial, aiTextureType_SHININESS, srcScene);
+	material.transmissionTextures = processTexture(srcMaterial, aiTextureType_TRANSMISSION, srcScene);
+	material.specularTextures = processTexture(srcMaterial, aiTextureType_SPECULAR, srcScene);
+}
+
+static ArrayList<Texture> processTexture(const aiMaterial* srcMaterial, aiTextureType type, const aiScene* srcScene)
+{
+	const unsigned int textureAmount = srcMaterial->GetTextureCount(type);
+	ArrayList<Texture> textures = ArrayList<Texture>();
+	
+	for (int i = 0; i < textureAmount; i++) 
+	{
+		aiString path;
+		srcMaterial->GetTexture(type, i, &path);
+		if (const aiTexture* texture = srcScene->GetEmbeddedTexture(path.C_Str())) 
+		{
+			const int textureLength = texture->mWidth * texture->mHeight;
+			unsigned char* texels = new unsigned char[textureLength * 4];
+			
+			for (int i = 0; i < textureLength; i++) 
+			{
+				texels[(i * 4)] = texture->pcData[i].r;
+				texels[(i * 4) + 1] = texture->pcData[i].g;
+				texels[(i * 4) + 2] = texture->pcData[i].b;
+				texels[(i * 4) + 3] = texture->pcData[i].a;
+			}
+
+			textures.Add(LoadTexture(texels, texture->mWidth, texture->mHeight, 4));
+		}
+		else 
+		{
+			textures.Add(LoadTexture((directory + std::string(path.C_Str())).c_str()));
+		}
+	}
+
+	return textures;
 }
 
 static Matrix4x4 convertMatrixFormat(const aiMatrix4x4& srcMatrix) 

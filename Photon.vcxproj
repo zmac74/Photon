@@ -175,8 +175,8 @@
   <ItemGroup>
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
-    <None Include="Shader Library\standard\Fragment.glsl" />
-    <None Include="Shader Library\standard\Vertex.glsl" />
+    <None Include="Shader Library\albedo\Fragment.glsl" />
+    <None Include="Shader Library\albedo\Vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

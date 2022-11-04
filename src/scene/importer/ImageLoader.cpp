@@ -5,7 +5,6 @@
 #include <core/Core.h>
 #include <scene/importer/Importer.h>
 #include <scene/Scene.h>
-#include <debug/Debug.h>
 
 static ArrayList<unsigned char*> images = ArrayList<unsigned char*>();
 

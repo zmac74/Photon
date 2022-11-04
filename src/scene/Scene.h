@@ -22,6 +22,7 @@ namespace Scene
 	struct AmbientLight;
 	struct Model;
 	struct Camera;
+	struct Material;
 
 	struct VertexBuffer
 	{
@@ -124,14 +125,15 @@ namespace Scene
 	struct Mesh : Node
 	{
 	public:
-		ArrayList<float> positions;
-		ArrayList<float> textureCoords;
-		ArrayList<float> normals;
-		ArrayList<float> colors;
-		ArrayList<float> tangents;
-		ArrayList<int> indices;
+		ArrayList<float> positions = ArrayList<float>(1000);
+		ArrayList<float> textureCoords = ArrayList<float>(1000);
+		ArrayList<float> normals = ArrayList<float>(1000);
+		ArrayList<float> colors = ArrayList<float>(1000);
+		ArrayList<float> tangents = ArrayList<float>(1000);
+		ArrayList<int> indices = ArrayList<int>(1000);
 
 		VertexArray vertexArray;
+		int materialID;
 	};
 
 	struct DirectionalLight : Node
@@ -209,6 +211,60 @@ namespace Scene
 		float fovX;
 	};
 
+	struct Material 
+	{
+	public:
+		Shader shader;
+
+		const char* name;
+
+		ArrayList<Texture> baseColorTextures;
+		ArrayList<Texture> ambientTextures;
+		ArrayList<Texture> diffuseTextures;
+		ArrayList<Texture> ambientOcclusionTextures;
+		ArrayList<Texture> clearCoatTextures;
+		ArrayList<Texture> diffuseRoughnessTextures;
+		ArrayList<Texture> displacementTextures;
+		ArrayList<Texture> emissionColorTextures;
+		ArrayList<Texture> emissiveTextures;
+		ArrayList<Texture> lightMapTextures;
+		ArrayList<Texture> metalnessTextures;
+		ArrayList<Texture> normalTextures;
+		ArrayList<Texture> opacityTextures;
+		ArrayList<Texture> reflectionTextures;
+		ArrayList<Texture> sheenTextures;
+		ArrayList<Texture> shininessTextures;
+		ArrayList<Texture> transmissionTextures;
+		ArrayList<Texture> specularTextures;
+
+		Color3 baseColor;
+		Color3 diffuseColor;
+		Color3 specularColor;
+		Color3 reflectiveColor;
+		Color3 ambientColor;
+		Color3 emissiveColor;
+		Color3 transparentColor;
+
+		bool wireframe;
+		bool twoSided;
+
+		float reflectivity;
+		float specularFactor;
+		float sheenColorFactor;
+		float sheenRoughnessFactor;
+		float roughnessFactor;
+		float metallicFactor;
+		float glossinessFactor;
+		float emissiveIntensity;
+		float anisotrophyFactor;
+		float clearcoatFactor;
+		float clearcoatRoughnessFactor;
+		float opacity;
+		float shininess;
+		float shininessStrength;
+		float refracti;
+	};
+
 	struct Model
 	{
 	public:
@@ -219,6 +275,7 @@ namespace Scene
 		ArrayList<AreaLight> areaLights;
 		ArrayList<SpotLight> spotLights;
 		ArrayList<AmbientLight> ambientLights;
+		ArrayList<Material> materials;
 
 		ArrayList<Camera> cameras;
 	};

@@ -8,6 +8,16 @@ namespace Interface
 	{
 		extern bool keys[65536];
 
+		namespace Keyboard 
+		{
+			extern bool leftShift;
+			extern bool rightShift;
+			extern bool caps;
+			extern bool escape;
+			extern bool enter;
+			extern bool leftControl;
+		}
+
 		extern bool mouseButtons[5];
 
 		extern int cursorXPos;

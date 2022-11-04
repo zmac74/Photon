@@ -8,13 +8,15 @@ void Renderer::Render(Model model, Texture texture, Shader shader)
 	for (int i = 0; i < model.meshes.GetLength(); i++) 
 	{
 		shader.SetMatrix4x4("transform", model.meshes[i].transform);
-		VertexArray& vertexArray = model.meshes[i].vertexArray;
+		const VertexArray& vertexArray = model.meshes[i].vertexArray;
 
 		glBindVertexArray(vertexArray.vaoID);
 		for (int i = 0; i < vertexArray.vbos.GetLength(); i++) glEnableVertexAttribArray(vertexArray.vbos[i].attributeIndex);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture.GetTextureID());
+		
+		if (model.materials[model.meshes[i].materialID].diffuseTextures.GetLength() > 0)
+		glBindTexture(GL_TEXTURE_2D, model.materials[model.meshes[i].materialID].diffuseTextures[0].GetTextureID());
 
 		glDrawElements(GL_TRIANGLES, vertexArray.elementBuffer.indexCount, GL_UNSIGNED_INT, 0);
 

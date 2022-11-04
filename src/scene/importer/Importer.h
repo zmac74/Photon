@@ -48,7 +48,7 @@ namespace Scene
 		Model LoadModel(const char* path);
 		Model LoadModel(const char* path, unsigned int flags);
 
-		VertexArray LoadVertexArray(ArrayList<float> positions, const ArrayList<float>& textureCoords, const ArrayList<float>& normals, const ArrayList<float>& colors, const ArrayList<float>& tangents, const ArrayList<int>& indices);
+		VertexArray LoadVertexArray(const ArrayList<float>& positions, const ArrayList<float>& textureCoords, const ArrayList<float>& normals, const ArrayList<float>& colors, const ArrayList<float>& tangents, const ArrayList<int>& indices);
 		void DeleteVertexArray(VertexArray vertexArray);
 		void DeleteVertexArrayRegistry();
 

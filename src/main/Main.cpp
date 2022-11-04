@@ -15,13 +15,15 @@ static void start()
 {
 	Core::Init();
 	window = Window(800, 600, "Photon");
-	window.LimitFrameRate(false);
+	window.LimitFrameRate(true);
 	window.DisableCursor(true);
 	Core::InitGraphicsLibrary();
 
-	model = LoadModel("Assets/models/Sponza Palace/sponza.obj");
-	shader = LoadShader("Shader Library/standard/Vertex.glsl", "Shader Library/standard/Fragment.glsl");
-	texture = LoadTexture("Assets/textures/BrickWall-4k.png");
+	//model = LoadModel("C://Users/micha/OneDrive/Desktop/3D Assets/Dining Room.fbx");
+	//model = LoadModel("C://Users/micha/OneDrive/Desktop/3D Assets/CarTest.fbx");
+	//model = LoadModel("C://Users/micha/OneDrive/Desktop/3D Assets/dragon/dragon.obj");
+	model = LoadModel("C://Users/micha/OneDrive/Desktop/3D Assets/Sponza Palace/sponza.obj");
+	shader = LoadShader("Shader Library/albedo/Vertex.glsl", "Shader Library/albedo/Fragment.glsl");
 	
 	for (int i = 0; i < model.meshes.GetLength(); i++) model.meshes[i].transform.Scale(0.035f, 0.035f, 0.035f);
 
@@ -71,7 +73,7 @@ static void run()
 
 		if (seconds >= 0.2f)
 		{
-			std::string title = "Ignite | FPS: " + std::to_string(fps);
+			std::string title = "Photon | FPS: " + std::to_string(fps);
 			if (window.IsFrameRateLimited()) title.append("*");
 			window.SetTitle(title.c_str());
 			seconds = 0;

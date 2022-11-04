@@ -93,6 +93,7 @@ namespace Utils
 		struct FloatBuffer 
 		{
 		public:
+			FloatBuffer() : buffer(nullptr), length(0) {}
 			FloatBuffer(float* buffer, int length) : buffer(buffer), length(length) {}
 
 			float* buffer = nullptr;
@@ -102,6 +103,7 @@ namespace Utils
 		struct IntBuffer
 		{
 		public:
+			IntBuffer() : buffer(nullptr), length(0) {}
 			IntBuffer(int* buffer, int length) : buffer(buffer), length(length) {}
 
 			int* buffer = nullptr;

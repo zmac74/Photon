@@ -43,8 +43,8 @@
     <ClInclude Include="src\utils\math\Procedual.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shader Library\standard\Vertex.glsl" />
-    <None Include="Shader Library\standard\Fragment.glsl" />
+    <None Include="Shader Library\albedo\Vertex.glsl" />
+    <None Include="Shader Library\albedo\Fragment.glsl" />
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
   </ItemGroup>
