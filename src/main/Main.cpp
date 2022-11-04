@@ -15,7 +15,7 @@ static void start()
 {
 	Core::Init();
 	window = Window(800, 600, "Photon");
-	window.LimitFrameRate(true);
+	window.LimitFrameRate(false);
 	window.DisableCursor(true);
 	Core::InitGraphicsLibrary();
 
