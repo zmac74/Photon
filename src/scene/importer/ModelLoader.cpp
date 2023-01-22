@@ -10,6 +10,7 @@
 
 #include <utils/collection/Buffer.h>
 #include <utils/collection/Color.h>
+#include <utils/math/Arithmetic.h>
 #include <utils/math/Vector.h>
 #include <utils/math/Matrix.h>
 
@@ -81,6 +82,7 @@ static void processAreaLight(const aiLight* srcLight);
 static void processSpotLight(const aiLight* srcLight);
 static void processAmbientLight(const aiLight* srcLight);
 
+static Color3 to01Range(const Color3& color);
 static Matrix4x4 convertMatrixFormat(const aiMatrix4x4& srcMatrix);
 
 static std::string directory;
@@ -266,15 +268,12 @@ static void processMeshIndices(const aiMesh* mesh, ArrayList<int>& indices)
 static void processLight(const aiLight* light) 
 {
 	aiLightSourceType lightType = light->mType;
-	
-	switch (lightType) 
-	{
-	case aiLightSource_DIRECTIONAL: processDirectionalLight(light);
-	case aiLightSource_POINT: processPointLight(light);
-	case aiLightSource_AREA: processAreaLight(light);
-	case aiLightSource_SPOT: processSpotLight(light);
-	case aiLightSource_AMBIENT: processAmbientLight(light);
-	}
+
+	if (lightType == aiLightSource_DIRECTIONAL) processDirectionalLight(light);
+	else if (lightType == aiLightSource_POINT) processPointLight(light);
+	else if (lightType == aiLightSource_AREA) processAreaLight(light);
+	else if (lightType == aiLightSource_SPOT) processSpotLight(light);
+	else if (lightType == aiLightSource_AMBIENT) processAmbientLight(light);
 }
 
 static void processDirectionalLight(const aiLight* srcLight) 
@@ -286,9 +285,11 @@ static void processDirectionalLight(const aiLight* srcLight)
 
 	light.direction = Vector3(srcLight->mDirection.x, srcLight->mDirection.y, srcLight->mDirection.z);
 
-	light.ambientColor = Color3(srcLight->mColorAmbient.r, srcLight->mColorAmbient.g, srcLight->mColorAmbient.b);
-	light.diffuseColor = Color3(srcLight->mColorDiffuse.r, srcLight->mColorDiffuse.g, srcLight->mColorDiffuse.b);
-	light.specularColor = Color3(srcLight->mColorSpecular.r, srcLight->mColorSpecular.g, srcLight->mColorSpecular.b);
+	light.ambientColor = Color3(to01Range(Color3(srcLight->mColorAmbient.r, srcLight->mColorAmbient.g, srcLight->mColorAmbient.b)));
+	light.diffuseColor = Color3(to01Range(Color3(srcLight->mColorDiffuse.r, srcLight->mColorDiffuse.g, srcLight->mColorDiffuse.b)));
+	light.specularColor = Color3(to01Range(Color3(srcLight->mColorSpecular.r, srcLight->mColorSpecular.g, srcLight->mColorSpecular.b)));
+
+	Scene::directionalLights.Add(light);
 }
 
 static void processPointLight(const aiLight* srcLight) 
@@ -298,13 +299,17 @@ static void processPointLight(const aiLight* srcLight)
 
 	processNodeData(srcLight->mName, light, NodeType::POINT_LIGHT, LIGHT_NAMING_OFFSET);
 
+	light.position = Vector3(srcLight->mPosition.x, srcLight->mPosition.y, srcLight->mPosition.z);
+
 	light.constantAttenuation = srcLight->mAttenuationConstant;
 	light.linearAttenuation = srcLight->mAttenuationLinear;
 	light.quadraticAttenuation = srcLight->mAttenuationQuadratic;
 
-	light.ambientColor = Color3(srcLight->mColorAmbient.r, srcLight->mColorAmbient.g, srcLight->mColorAmbient.b);
-	light.diffuseColor = Color3(srcLight->mColorDiffuse.r, srcLight->mColorDiffuse.g, srcLight->mColorDiffuse.b);
-	light.specularColor = Color3(srcLight->mColorSpecular.r, srcLight->mColorSpecular.g, srcLight->mColorSpecular.b);
+	light.ambientColor = Color3(to01Range(Color3(srcLight->mColorAmbient.r, srcLight->mColorAmbient.g, srcLight->mColorAmbient.b)));
+	light.diffuseColor = Color3(to01Range(Color3(srcLight->mColorDiffuse.r, srcLight->mColorDiffuse.g, srcLight->mColorDiffuse.b)));
+	light.specularColor = Color3(to01Range(Color3(srcLight->mColorSpecular.r, srcLight->mColorSpecular.g, srcLight->mColorSpecular.b)));
+
+	Scene::pointLights.Add(light);
 }
 
 static void processAreaLight(const aiLight* srcLight) 
@@ -314,6 +319,7 @@ static void processAreaLight(const aiLight* srcLight)
 
 	processNodeData(srcLight->mName, light, NodeType::AREA_LIGHT, LIGHT_NAMING_OFFSET);
 
+	light.position = Vector3(srcLight->mPosition.x, srcLight->mPosition.y, srcLight->mPosition.z);
 	light.direction = Vector3(srcLight->mDirection.x, srcLight->mDirection.y, srcLight->mDirection.z);
 	
 	light.constantAttenuation = srcLight->mAttenuationConstant;
@@ -323,9 +329,11 @@ static void processAreaLight(const aiLight* srcLight)
 	light.areaWidth = srcLight->mSize.x;
 	light.areaHeight = srcLight->mSize.y;
 
-	light.ambientColor = Color3(srcLight->mColorAmbient.r, srcLight->mColorAmbient.g, srcLight->mColorAmbient.b);
-	light.diffuseColor = Color3(srcLight->mColorDiffuse.r, srcLight->mColorDiffuse.g, srcLight->mColorDiffuse.b);
-	light.specularColor = Color3(srcLight->mColorSpecular.r, srcLight->mColorSpecular.g, srcLight->mColorSpecular.b);
+	light.ambientColor = Color3(to01Range(Color3(srcLight->mColorAmbient.r, srcLight->mColorAmbient.g, srcLight->mColorAmbient.b)));
+	light.diffuseColor = Color3(to01Range(Color3(srcLight->mColorDiffuse.r, srcLight->mColorDiffuse.g, srcLight->mColorDiffuse.b)));
+	light.specularColor = Color3(to01Range(Color3(srcLight->mColorSpecular.r, srcLight->mColorSpecular.g, srcLight->mColorSpecular.b)));
+	
+	Scene::areaLights.Add(light);
 }
 
 static void processSpotLight(const aiLight* srcLight) 
@@ -335,7 +343,9 @@ static void processSpotLight(const aiLight* srcLight)
 
 	processNodeData(srcLight->mName, light, NodeType::SPOT_LIGHT, LIGHT_NAMING_OFFSET);
 	
+	light.position = Vector3(srcLight->mPosition.x, srcLight->mPosition.y, srcLight->mPosition.z);
 	light.direction = Vector3(srcLight->mDirection.x, srcLight->mDirection.y, srcLight->mDirection.z);
+
 	light.innerConeAngle = srcLight->mAngleInnerCone;
 	light.outerConeAngle = srcLight->mAngleOuterCone;
 
@@ -343,9 +353,11 @@ static void processSpotLight(const aiLight* srcLight)
 	light.linearAttenuation = srcLight->mAttenuationLinear;
 	light.quadraticAttenuation = srcLight->mAttenuationQuadratic;
 
-	light.ambientColor = Color3(srcLight->mColorAmbient.r, srcLight->mColorAmbient.g, srcLight->mColorAmbient.b);
-	light.diffuseColor = Color3(srcLight->mColorDiffuse.r, srcLight->mColorDiffuse.g, srcLight->mColorDiffuse.b);
-	light.specularColor = Color3(srcLight->mColorSpecular.r, srcLight->mColorSpecular.g, srcLight->mColorSpecular.b);
+	light.ambientColor = Color3(to01Range(Color3(srcLight->mColorAmbient.r, srcLight->mColorAmbient.g, srcLight->mColorAmbient.b)));
+	light.diffuseColor = Color3(to01Range(Color3(srcLight->mColorDiffuse.r, srcLight->mColorDiffuse.g, srcLight->mColorDiffuse.b)));
+	light.specularColor = Color3(to01Range(Color3(srcLight->mColorSpecular.r, srcLight->mColorSpecular.g, srcLight->mColorSpecular.b)));
+	
+	Scene::spotLights.Add(light);
 }
 
 static void processAmbientLight(const aiLight* srcLight) 
@@ -355,9 +367,11 @@ static void processAmbientLight(const aiLight* srcLight)
 
 	processNodeData(srcLight->mName, light, NodeType::AMBIENT_LIGHT, LIGHT_NAMING_OFFSET);
 
-	light.ambientColor = Color3(srcLight->mColorAmbient.r, srcLight->mColorAmbient.g, srcLight->mColorAmbient.b);
-	light.diffuseColor = Color3(srcLight->mColorDiffuse.r, srcLight->mColorDiffuse.g, srcLight->mColorDiffuse.b);
-	light.specularColor = Color3(srcLight->mColorSpecular.r, srcLight->mColorSpecular.g, srcLight->mColorSpecular.b);
+	light.ambientColor = Color3(to01Range(Color3(srcLight->mColorAmbient.r, srcLight->mColorAmbient.g, srcLight->mColorAmbient.b)));
+	light.diffuseColor = Color3(to01Range(Color3(srcLight->mColorDiffuse.r, srcLight->mColorDiffuse.g, srcLight->mColorDiffuse.b)));
+	light.specularColor = Color3(to01Range(Color3(srcLight->mColorSpecular.r, srcLight->mColorSpecular.g, srcLight->mColorSpecular.b)));
+
+	Scene::ambientLights.Add(light);
 }
 
 static void processCamera(const aiCamera* srcCamera) 
@@ -383,6 +397,24 @@ static void processMaterial(const aiMaterial* srcMaterial, const aiScene* srcSce
 	Material& material = model.materials.GetLastElement();
 
 	material.shader = LoadShader("Shader Library/albedo/Vertex.glsl", "Shader Library/albedo/Fragment.glsl");
+
+	material.shader.Start();
+	material.shader.SetInt("materialTextures.baseColorMap", 0);
+	material.shader.SetInt("materialTextures.normalMap", 1);
+	material.shader.SetInt("materialTextures.diffuseRoughnessMap", 2);
+	material.shader.SetInt("materialTextures.clearCoatMap", 3);
+	material.shader.SetInt("materialTextures.ambientOcclusionMap", 4);
+	material.shader.SetInt("materialTextures.opacityTextures", 5);
+	material.shader.SetInt("materialTextures.reflectionMap", 6);
+	material.shader.SetInt("materialTextures.sheenMap", 7);
+	material.shader.SetInt("materialTextures.shininessMap", 8);
+	material.shader.SetInt("materialTextures.transmissionMap", 9);
+	material.shader.SetInt("materialTextures.specularMap", 10);
+	material.shader.SetInt("materialTextures.metalnessMap", 11);
+	material.shader.SetInt("materialTextures.displacementMap", 12);
+	material.shader.SetInt("materialTextures.emissionColorMap", 13);
+	material.shader.SetInt("materialTextures.emissiveMap", 14);
+	material.shader.Stop();
 
 	aiString name;
 	srcMaterial->Get(AI_MATKEY_NAME, name);
@@ -486,6 +518,14 @@ static ArrayList<Texture> processTexture(const aiMaterial* srcMaterial, aiTextur
 	}
 
 	return textures;
+}
+
+static Color3 to01Range(const Color3& color) 
+{
+	float firtsMax = Math::Max(color.r, color.g);
+	float max = Math::Max(firtsMax, color.b);
+
+	return Color3(color.r / max, color.g / max, color.b / max);
 }
 
 static Matrix4x4 convertMatrixFormat(const aiMatrix4x4& srcMatrix) 

@@ -66,6 +66,8 @@ void FirstPersonCamera::update()
 
 	if (fov >= MAX_FOV) fov = MAX_FOV;
 	if (fov <= MIN_FOV) fov = MIN_FOV;
+
+	updateMatrix();
 }
 
 void FirstPersonCamera::translate(float x, float y, float z)
@@ -76,7 +78,7 @@ void FirstPersonCamera::translate(float x, float y, float z)
 	position.Translate(offset);
 }
 
-Matrix4x4 FirstPersonCamera::getMatrix() 
+void FirstPersonCamera::updateMatrix()
 {
 	Vector3 lookPoint = Vector3(0, 0, -1);
 	lookPoint.RotateX(ToRadians(pitch));
@@ -86,5 +88,12 @@ Matrix4x4 FirstPersonCamera::getMatrix()
 	
 	Matrix4x4 matrix = Math::LookAt(position, lookPoint, Vector3(0, 1, 0));
 
-	return Math::Perspective(ToRadians(fov), (float)window.GetFrameBufferWidth() / (float)window.GetFrameBufferHeight(), 0.1f, 1000.0f) * matrix;
+	Scene::activeCamera.cameraMatrix = Math::Perspective(ToRadians(fov), (float)window.GetFrameBufferWidth() / (float)window.GetFrameBufferHeight(), 0.1f, 1000.0f) * matrix;
+	Scene::activeCamera.nearPlane = 0.1f;
+	Scene::activeCamera.farPlane = 1000.0f;
+	Scene::activeCamera.aspectRatio = (float)window.GetFrameBufferWidth() / (float)window.GetFrameBufferHeight();
+	Scene::activeCamera.fovX = 90.0f;
+	Scene::activeCamera.position = position;
+	Scene::activeCamera.lookDirection = lookPoint - position;
+	Scene::activeCamera.orientation = Vector3(0, 1, 0);
 }

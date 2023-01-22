@@ -10,7 +10,6 @@ public:
 	FirstPersonCamera(float x, float y, float z) : position(x, y, z) {}
 
 	void update();
-	Matrix4x4 getMatrix();
 
 private:
 	Vector3 position;
@@ -18,4 +17,5 @@ private:
 	void processMouseInput();
 	void processJoystickInput();
 	void translate(float x, float y, float z);
+	void updateMatrix();
 };

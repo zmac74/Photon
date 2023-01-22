@@ -137,6 +137,11 @@ namespace Utils
 			inline void SetX(float x) { vector.x = x; }
 			inline void SetY(float y) { vector.y = y; }
 
+			inline void Normalize() { vector = glm::normalize(vector); }
+
+			inline float Max() { return glm::max(vector.x, vector.y); }
+			inline float Min() { return glm::min(vector.x, vector.y); }
+
 			inline float GetLength() const { return sqrtf((vector.x * vector.x) + (vector.y * vector.y)); }
 
 			inline glm::vec2 GetGLMVector() const { return vector; }
@@ -289,7 +294,7 @@ namespace Utils
 			inline void ReflectY() { vector.y * -1; }
 			inline void ReflectZ() { vector.z * -1; }
 
-			inline void Cross(Vector3 vector) { this->vector = glm::cross(this->vector, vector.GetGLMVector()); }//
+			inline void Cross(Vector3 vector) { this->vector = glm::cross(this->vector, vector.GetGLMVector()); }
 			inline float Dot(Vector3 vector) { return glm::dot(this->vector, vector.GetGLMVector()); }
 
 			inline float operator [] (int index) const { return vector[index]; }
@@ -301,6 +306,20 @@ namespace Utils
 			inline void SetX(float x) { vector.x = x; }
 			inline void SetY(float y) { vector.y = y; }
 			inline void SetZ(float z) { vector.z = z; }
+
+			inline void Normalize() { vector = glm::normalize(vector); }
+
+			inline float Max() 
+			{ 
+				float max = glm::max(vector.x, vector.y);
+				return glm::max(max, vector.z);
+			}
+
+			inline float Min() 
+			{ 
+				float min = glm::min(vector.x, vector.y);
+				return glm::min(min, vector.z);
+			}
 
 			inline float GetLength() const { return sqrtf((vector.x * vector.x) + (vector.y * vector.y) + (vector.z * vector.z)); }
 
@@ -478,7 +497,23 @@ namespace Utils
 			inline void SetZ(float z) { vector.z = z; }
 			inline void SetW(float w) { vector.w = w; }
 
+			inline void Normalize() { vector = glm::normalize(vector); }
+
 			inline float GetLength() const { return sqrtf((vector.x * vector.x) + (vector.y * vector.y) + (vector.z * vector.z) + (vector.w * vector.w)); }
+
+			inline float Max()
+			{
+				float max1 = glm::max(vector.x, vector.y);
+				float max2 = glm::max(max1, vector.z);
+				return glm::max(max2, vector.w);
+			}
+
+			inline float Min()
+			{
+				float min1 = glm::min(vector.x, vector.y);
+				float min2 = glm::min(min1, vector.z);
+				return glm::min(min2, vector.w);
+			}
 
 			inline glm::vec4 GetGLMVector() const { return vector; }
 

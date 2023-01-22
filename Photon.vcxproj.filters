@@ -22,6 +22,7 @@
     <ClCompile Include="src\interface\input\Joystick.cpp" />
     <ClCompile Include="src\scene\importer\ModelLoader.cpp" />
     <ClCompile Include="src\utils\math\Procedual.cpp" />
+    <ClCompile Include="src\scene\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\interface\gui\Window.h" />

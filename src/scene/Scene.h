@@ -24,6 +24,13 @@ namespace Scene
 	struct Camera;
 	struct Material;
 
+	extern Camera activeCamera;
+	extern ArrayList<DirectionalLight> directionalLights;
+	extern ArrayList<PointLight> pointLights;
+	extern ArrayList<AreaLight> areaLights;
+	extern ArrayList<SpotLight> spotLights;
+	extern ArrayList<AmbientLight> ambientLights;
+
 	struct VertexBuffer
 	{
 		unsigned int vboID = 0;
@@ -149,6 +156,8 @@ namespace Scene
 	struct PointLight : Node
 	{
 	public:
+		Vector3 position;
+
 		float constantAttenuation;
 		float linearAttenuation;
 		float quadraticAttenuation;
@@ -161,6 +170,7 @@ namespace Scene
 	struct AreaLight : Node
 	{
 	public:
+		Vector3 position;
 		Vector3 direction;
 
 		float constantAttenuation;
@@ -178,7 +188,9 @@ namespace Scene
 	struct SpotLight : Node
 	{
 	public:
+		Vector3 position;
 		Vector3 direction;
+
 		float innerConeAngle;
 		float outerConeAngle;
 
@@ -204,11 +216,15 @@ namespace Scene
 	public:
 		Matrix4x4 cameraMatrix;
 		
-		float nearPlane;
-		float farPlane;
+		Vector3 position;
+		Vector3 lookDirection;
+		Vector3 orientation;
 
-		float aspectRatio;
-		float fovX;
+		float nearPlane = 0;
+		float farPlane = 0;
+
+		float aspectRatio = 0;
+		float fovX = 0;
 	};
 
 	struct Material 

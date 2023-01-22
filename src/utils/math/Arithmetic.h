@@ -17,9 +17,13 @@ namespace Utils
 
 		inline float Floor(float val) { return floorf(val); }
 
-		inline float Round(float val) { return roundf(val);}
+		inline float Round(float val) { return roundf(val); }
 
 		inline float Abs(float val) { return abs(val); }
+
+		inline float Max(float v1, float v2) { return glm::max(v1, v2); }
+
+		inline float Min(float v1, float v2) { return glm::min(v1, v2); }
 
 		inline float ToRadians(float degrees) { return glm::radians(degrees); }
 
