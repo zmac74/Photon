@@ -90,7 +90,7 @@ static Model model;
 static aiNode* rootNode = nullptr;
 static aiMaterial** materials = nullptr;
 
-Model Scene::Importer::LoadModel(const char* path, unsigned int flags) 
+Model* Scene::Importer::LoadModel(const char* path, unsigned int flags) 
 {
 	model = Model();
 	Assimp::Importer importer;
@@ -102,12 +102,13 @@ Model Scene::Importer::LoadModel(const char* path, unsigned int flags)
 	calculateModelDirectory(path);
 	calculateNodeNamingOffset(path);
 	processScene(scene);
+	models.Add(model);
 	
 	importer.FreeScene();
-	return model;
+	return &models.GetLastElement();
 }
 
-Model Scene::Importer::LoadModel(const char* path)
+Model* Scene::Importer::LoadModel(const char* path)
 {
 	return LoadModel(path, POSTPROCESS_TRIANGULATE | POSTPROCESS_PRE_TRANSFORM_VERTICES);
 }

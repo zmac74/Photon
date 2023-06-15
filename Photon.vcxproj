@@ -80,6 +80,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -104,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\micha\OneDrive\Desktop\Libraries\FastNoiseLite;C:\Users\micha\OneDrive\Desktop\Libraries\Assimp\include;C:\Users\micha\OneDrive\Desktop\Libraries\STB;C:\Users\micha\OneDrive\Desktop\Libraries\GLM\library;C:\Users\micha\OneDrive\Desktop\Libraries\GLEW\include;C:\Users\micha\source\repos\Photon\src;C:\Users\micha\OneDrive\Desktop\Libraries\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\micha\OneDrive\Desktop\Libraries\FastNoiseLite;C:\Users\micha\OneDrive\Desktop\Libraries\Assimp\include;C:\Users\micha\OneDrive\Desktop\Libraries\STB;C:\Users\micha\OneDrive\Desktop\Libraries\GLM\library;C:\Users\micha\OneDrive\Desktop\Libraries\GLEW\include;C:\Users\micha\OneDrive\Desktop\Photon\src;C:\Users\micha\OneDrive\Desktop\Libraries\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -112,6 +113,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\micha\OneDrive\Desktop\Libraries\Assimp\build\lib\Release;C:\Users\micha\OneDrive\Desktop\Libraries\GLEW\lib\Release\x64;C:\Users\micha\OneDrive\Desktop\Libraries\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>assimp-vc143-mt.lib;glew32s.lib;opengl32.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -120,14 +122,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\micha\OneDrive\Desktop\Libraries\FastNoiseLite;C:\Users\micha\OneDrive\Desktop\Libraries\Assimp\include;C:\Users\micha\OneDrive\Desktop\Libraries\STB;C:\Users\micha\OneDrive\Desktop\Libraries\GLM\library;C:\Users\micha\OneDrive\Desktop\Libraries\GLEW\include;C:\Users\micha\OneDrive\Desktop\Photon\src;C:\Users\micha\OneDrive\Desktop\Libraries\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>assimp-vc143-mt.lib;glew32s.lib;opengl32.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -143,7 +148,11 @@
     <ClCompile Include="src\interface\input\Mouse.cpp" />
     <ClCompile Include="src\main\FirstPersonCamera.cpp" />
     <ClCompile Include="src\main\Main.cpp" />
+    <ClCompile Include="src\renderer\FrameBuffer.cpp" />
+    <ClCompile Include="src\renderer\FrameBufferLoader.cpp" />
     <ClCompile Include="src\renderer\MeshRenderer.cpp" />
+    <ClCompile Include="src\renderer\postProcessing\PostProcesser.cpp" />
+    <ClCompile Include="src\renderer\postProcessing\PostProcessStack.cpp" />
     <ClCompile Include="src\renderer\Renderer.cpp" />
     <ClCompile Include="src\renderer\shader\Shader.cpp" />
     <ClCompile Include="src\scene\importer\ImageLoader.cpp" />
@@ -156,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Core.h" />
+    <ClInclude Include="src\core\Memory.h" />
     <ClInclude Include="src\core\system\Time.h" />
     <ClInclude Include="src\debug\Debug.h" />
     <ClInclude Include="src\debug\profiler\ScopeTimer.h" />
@@ -163,12 +173,29 @@
     <ClInclude Include="src\interface\input\Input.h" />
     <ClInclude Include="src\main\Main.h" />
     <ClInclude Include="src\Photon.h" />
+    <ClInclude Include="src\renderer\FrameBuffer.h" />
+    <ClInclude Include="src\renderer\postProcessing\PostProcesser.h" />
+    <ClInclude Include="src\renderer\postProcessing\PostProcessStack.h" />
     <ClInclude Include="src\renderer\Renderer.h" />
+    <ClInclude Include="src\scene\BoundingVolume.h" />
+    <ClInclude Include="src\scene\Camera.h" />
+    <ClInclude Include="src\scene\Image.h" />
     <ClInclude Include="src\scene\importer\Importer.h" />
+    <ClInclude Include="src\scene\Light.h" />
+    <ClInclude Include="src\scene\Material.h" />
+    <ClInclude Include="src\scene\Mesh.h" />
+    <ClInclude Include="src\scene\Model.h" />
+    <ClInclude Include="src\scene\Node.h" />
+    <ClInclude Include="src\scene\PostProcessVolume.h" />
     <ClInclude Include="src\scene\Scene.h" />
+    <ClInclude Include="src\scene\Shader.h" />
+    <ClInclude Include="src\scene\Texture.h" />
     <ClInclude Include="src\utils\collection\Buffer.h" />
     <ClInclude Include="src\utils\collection\Color.h" />
+    <ClInclude Include="src\utils\collection\Sort.h" />
+    <ClInclude Include="src\utils\generic\String.h" />
     <ClInclude Include="src\utils\math\Arithmetic.h" />
+    <ClInclude Include="src\utils\math\Intersect.h" />
     <ClInclude Include="src\utils\math\Matrix.h" />
     <ClInclude Include="src\utils\math\Procedual.h" />
     <ClInclude Include="src\utils\math\Vector.h" />
@@ -178,6 +205,14 @@
     <None Include=".gitignore" />
     <None Include="Shader Library\albedo\Fragment.glsl" />
     <None Include="Shader Library\albedo\Vertex.glsl" />
+    <None Include="Shader Library\postProcessing\chromaticAberration\Fragment.glsl" />
+    <None Include="Shader Library\postProcessing\chromaticAberration\Vertex.glsl" />
+    <None Include="Shader Library\postProcessing\colorInversion\Fragment.glsl" />
+    <None Include="Shader Library\postProcessing\colorInversion\Vertex.glsl" />
+    <None Include="Shader Library\postProcessing\grayScale\Fragment.glsl" />
+    <None Include="Shader Library\postProcessing\grayScale\Vertex.glsl" />
+    <None Include="Shader Library\postProcessing\vignette\Fragment.glsl" />
+    <None Include="Shader Library\postProcessing\vignette\Vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

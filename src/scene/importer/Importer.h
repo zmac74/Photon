@@ -45,11 +45,11 @@ namespace Scene
 		extern const int POSTPROCESS_TRIANGULATE;
 		extern const int POSTPROCESS_VALIDATE_DATA_STRUCTURE;
 
-		Model LoadModel(const char* path);
-		Model LoadModel(const char* path, unsigned int flags);
+		Model* LoadModel(const char* path);
+		Model* LoadModel(const char* path, unsigned int flags);
 
 		VertexArray LoadVertexArray(const ArrayList<float>& positions, const ArrayList<float>& textureCoords, const ArrayList<float>& normals, const ArrayList<float>& colors, const ArrayList<float>& tangents, const ArrayList<int>& indices);
-		void DeleteVertexArray(VertexArray vertexArray);
+		void DeleteVertexArray(const VertexArray& vertexArray);
 		void DeleteVertexArrayRegistry();
 
 		Shader LoadShader(const char* vertexShader, const char* fragmentShader);
@@ -62,6 +62,13 @@ namespace Scene
 		Texture LoadTexture(unsigned char* pixels, int width, int height, int channels);
 		Texture LoadTexture(Image image);
 		Texture LoadTexture(const char* path);
+		Texture LoadFrameBufferTexture(int width, int height, int index);
+
+		Texture LoadTexture(unsigned char* pixels, int width, int height, int channels, TextureProperties properties);
+		Texture LoadTexture(Image image, TextureProperties properties);
+		Texture LoadTexture(const char* path, TextureProperties properties);
+		Texture LoadFrameBufferTexture(int width, int height, TextureProperties properties, int index);
+
 		void DeleteTextureRegistry();
 	}
 }

@@ -9,12 +9,13 @@ static void setCamera(const Model& model, int i);
 static void setLights(const Model& model, int i);
 static void setTextures(const Model& model, int i);
 static void setMaterialProperties(const Model& model, int i);
+static void unbindTextures();
 
-void Renderer::Render(Model model)
+void Renderer::RenderModel(const Model& model)
 {
 	for (int i = 0; i < model.meshes.GetLength(); i++) 
 	{
-		Shader shader = model.materials[model.meshes[i].materialID].shader;
+		Shader& shader = model.materials[model.meshes[i].materialID].shader;
 		shader.Start();
 
 		shader.SetMatrix4x4("camera", Scene::activeCamera.cameraMatrix);
@@ -31,7 +32,7 @@ void Renderer::Render(Model model)
 
 		glDrawElements(GL_TRIANGLES, vertexArray.elementBuffer.indexCount, GL_UNSIGNED_INT, 0);
 
-		glBindTexture(GL_TEXTURE_2D, 0);
+		unbindTextures();
 
 		for (int i = 0; i < vertexArray.vbos.GetLength(); i++) glDisableVertexAttribArray(vertexArray.vbos[i].attributeIndex);
 		glBindVertexArray(0);
@@ -56,21 +57,6 @@ static void setCamera(const Model& model, int i)
 static void setLights(const Model& model, int i) 
 {
 	Shader& shader = model.materials[model.meshes[i].materialID].shader;
-
-	//shader.SetVector3("pointLight.position", Vector3(0, 1.5, 0));
-	//shader.SetVector3("pointLight.diffuseColor", Vector3(1, 1, 1));
-	//shader.SetFloat("pointLight.constantAttenuation", 1.0f);
-	//shader.SetFloat("pointLight.linearAttenuation", 0.045f);
-	//shader.SetFloat("pointLight.quadraticAttenuation", 0.0075f);
-
-	/*shader.SetVector3("spotLight.position", Scene::activeCamera.position);
-	shader.SetVector3("spotLight.direction", Scene::activeCamera.lookDirection);
-	shader.SetFloat("spotLight.innerConeAngle", Math::Cos(Math::ToRadians(25.0f)));
-	shader.SetFloat("spotLight.outerConeAngle", Math::Cos(Math::ToRadians(40.0f)));
-	shader.SetVector3("spotLight.diffuseColor", Vector3(1, 1, 1));
-	shader.SetFloat("spotLight.constantAttenuation", 1.0f);
-	shader.SetFloat("spotLight.linearAttenuation", 0.0045f);
-	shader.SetFloat("spotLight.quadraticAttenuation", 0.00075f);*/
 
 	shader.SetInt("directionalLightCount", Scene::directionalLights.GetLength());
 	for (int i = 0; i < Scene::directionalLights.GetLength(); i++) 
@@ -207,4 +193,52 @@ static void setTextures(const Model& model, int i)
 	glActiveTexture(GL_TEXTURE14);
 	if (model.materials[model.meshes[i].materialID].emissiveTextures.GetLength() > 0)
 		glBindTexture(GL_TEXTURE_2D, model.materials[model.meshes[i].materialID].emissiveTextures[0].GetTextureID());
+}
+
+static void unbindTextures() 
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE6);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE7);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE8);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE9);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE10);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE11);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE12);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE13);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE14);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

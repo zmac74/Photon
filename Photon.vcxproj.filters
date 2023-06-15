@@ -23,6 +23,10 @@
     <ClCompile Include="src\scene\importer\ModelLoader.cpp" />
     <ClCompile Include="src\utils\math\Procedual.cpp" />
     <ClCompile Include="src\scene\Scene.cpp" />
+    <ClCompile Include="src\renderer\FrameBufferLoader.cpp" />
+    <ClCompile Include="src\renderer\postProcessing\PostProcesser.cpp" />
+    <ClCompile Include="src\renderer\FrameBuffer.cpp" />
+    <ClCompile Include="src\renderer\postProcessing\PostProcessStack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\interface\gui\Window.h" />
@@ -42,11 +46,37 @@
     <ClInclude Include="src\interface\input\Input.h" />
     <ClInclude Include="src\core\system\Time.h" />
     <ClInclude Include="src\utils\math\Procedual.h" />
+    <ClInclude Include="src\renderer\FrameBuffer.h" />
+    <ClInclude Include="src\renderer\postProcessing\PostProcessStack.h" />
+    <ClInclude Include="src\renderer\postProcessing\PostProcesser.h" />
+    <ClInclude Include="src\scene\PostProcessVolume.h" />
+    <ClInclude Include="src\scene\Texture.h" />
+    <ClInclude Include="src\scene\Image.h" />
+    <ClInclude Include="src\scene\Camera.h" />
+    <ClInclude Include="src\scene\Light.h" />
+    <ClInclude Include="src\scene\Node.h" />
+    <ClInclude Include="src\scene\Material.h" />
+    <ClInclude Include="src\scene\Shader.h" />
+    <ClInclude Include="src\scene\Mesh.h" />
+    <ClInclude Include="src\scene\Model.h" />
+    <ClInclude Include="src\utils\collection\Sort.h" />
+    <ClInclude Include="src\scene\BoundingVolume.h" />
+    <ClInclude Include="src\utils\math\Intersect.h" />
+    <ClInclude Include="src\core\Memory.h" />
+    <ClInclude Include="src\utils\generic\String.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader Library\albedo\Vertex.glsl" />
     <None Include="Shader Library\albedo\Fragment.glsl" />
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
+    <None Include="Shader Library\postProcessing\colorInversion\Vertex.glsl" />
+    <None Include="Shader Library\postProcessing\colorInversion\Fragment.glsl" />
+    <None Include="Shader Library\postProcessing\grayScale\Fragment.glsl" />
+    <None Include="Shader Library\postProcessing\grayScale\Vertex.glsl" />
+    <None Include="Shader Library\postProcessing\chromaticAberration\Fragment.glsl" />
+    <None Include="Shader Library\postProcessing\chromaticAberration\Vertex.glsl" />
+    <None Include="Shader Library\postProcessing\vignette\Fragment.glsl" />
+    <None Include="Shader Library\postProcessing\vignette\Vertex.glsl" />
   </ItemGroup>
 </Project>

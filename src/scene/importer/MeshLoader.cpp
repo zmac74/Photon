@@ -56,7 +56,7 @@ static void loadElementBuffer(ArrayList<int> data)
 	vertexArray.elementBuffer = elementBuffer;
 }
 
-void Scene::Importer::DeleteVertexArray(VertexArray vertexArray) 
+void Scene::Importer::DeleteVertexArray(const VertexArray& vertexArray) 
 {
 	glDeleteVertexArrays(1, &vertexArray.vaoID);
 	for (int i = 0; i < vertexArray.vbos.GetLength(); i++) glDeleteBuffers(1, &vertexArray.vbos[i].vboID);

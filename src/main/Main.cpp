@@ -9,7 +9,7 @@ Window window = Window();
 FirstPersonCamera camera = FirstPersonCamera(0, 0, 3);
 Texture texture;
 Model model;
-Model sponza;
+Model* sponza;
 Shader shader;
 
 static void start() 
@@ -19,12 +19,12 @@ static void start()
 	window.LimitFrameRate(false);
 	window.DisableCursor(true);
 	Core::InitGraphicsLibrary();
+	Renderer::InitRenderer(800, 600);
 
 	sponza = LoadModel("C://Users/micha/OneDrive/Desktop/3D Assets/Sponza Palace/sponza.obj");
-	shader = LoadShader("Shader Library/albedo/Vertex.glsl", "Shader Library/albedo/Fragment.glsl");
 
 	PointLight mainLight;
-	mainLight.position = Vector3(0, 1, 0);
+	mainLight.position = Vector3(0, 20, 0);
 
 	mainLight.constantAttenuation = 1;
 	mainLight.linearAttenuation = 0.0002;
@@ -34,9 +34,9 @@ static void start()
 	mainLight.diffuseColor = Color3(1, 1, 1);
 	mainLight.specularColor = Color3(1, 1, 1);
 
-	Scene::pointLights.Add(mainLight);
+	Scene::CreatePointLight(mainLight);
 
-	for (int i = 0; i < sponza.meshes.GetLength(); i++) sponza.meshes[i].transform.Scale(0.035f, 0.035f, 0.035f);
+	for (int i = 0; i < sponza->meshes.GetLength(); i++) sponza->meshes[i].transform.Scale(0.035f, 0.035f, 0.035f);
 }
 
 static void update() 
@@ -49,9 +49,7 @@ static void update()
 
 static void render() 
 {
-	ClearFrame(Color3(0, 1, 0));
-	Render(model);
-	Render(sponza);
+	RenderScene();
 	window.Render();
 }
 
